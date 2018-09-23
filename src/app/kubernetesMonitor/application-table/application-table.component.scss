@@ -1,0 +1,179 @@
+/*
+ * kubernetes-monitor-view
+ * Copyright (C) 2018 Thomas Pohl and EXXETA AG
+ * http://www.exxeta.com
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+ // component css goes here
+table {
+    background-color: transparent;
+    border-spacing: 20px 0;
+    table-layout: fixed;
+}
+
+th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+td.ok {
+    background-color: rgba($color: #4CAF50, $alpha: 1)
+}
+
+td.error {
+    background-color: rgba($color: #da004d, $alpha: 1)
+}
+
+.table th,
+.table td {
+    padding: 2px;
+    background-color: rgba($color: #212121, $alpha: 1);
+    border-color: #616161;
+    color: #FFFFFF;
+    width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.table thead th {
+    border-color: #616161;
+}
+
+tr {
+    background-color: transparent;
+}
+
+.containerRow {
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.table td.spacer, .table th.spacer {
+    width: 5px;
+    background-color: transparent;
+    border-top: 0px;
+    border-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.table .headerspacer {
+    background-color: transparent;
+    border-top: 0px;
+    border-bottom: 0px;
+}
+
+@media (min-width: 1500px){ .table .headerspacer {
+    width: 100px;
+}}
+
+@media (min-width: 1200px) and (max-width: 1499px){ .table .headerspacer {
+    width: 80px;
+}}
+@media (max-width: 1199px){ .table .headerspacer {
+    width: 60px;
+}}
+
+.table tbody+tbody {
+    border: 0px;
+}
+
+.appName {
+    text-align: left;
+    padding-left: 10px;
+}
+.containerName {
+    padding-left: 20px;
+}
+
+.borderDiv {
+    padding: 15px;
+}
+
+.chevron {
+    padding-right: 15px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.instance {
+    text-align: center;
+}
+
+.dot {
+    height: 23px;
+    width: 90%;
+    margin: 2px;
+    background-color: #bbb;
+    border-radius: 25px;
+    border: 0px solid #616161;
+    display: inline-block;
+    cursor: pointer;
+    padding-left: 3px;
+    padding-right: 3px;
+    text-align: center;
+}
+
+.dot.blue {
+    background-color: #2196F3;
+}
+
+.dot.lightblue {
+    background-color: #0D47A1;
+}
+
+.dot.red {
+    background-color: #da004d;
+}
+
+.dot.yellow {
+    background-color: #FF9800;
+}
+
+.dot.gray {
+    background-color: #E0E0E0;
+}
+
+.version {
+    cursor: pointer;
+}
+.version.lightblue {
+    color: #64B5F6;
+}
+
+.version.blue {
+    color: #537DA4;
+}
+
+.version.red {
+    color: #da004d;
+}
+
+.version.yellow {
+    color: #FF9800;
+}
+
+.version.gray {
+    color: #E0E0E0;
+}
+
+td.container {
+    color: #FFFFFF;
+    text-align: center;
+}
+th.stage {
+ font-size: 0.9em;
+}

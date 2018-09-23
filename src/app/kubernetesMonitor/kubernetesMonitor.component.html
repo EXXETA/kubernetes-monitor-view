@@ -1,0 +1,23 @@
+<div class="background kubeMonitor">
+  <div class="row">
+    <div class="col-xs-6" *ngIf="statusReport">
+      <div class="btn-group">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Unexpected namespaces ({{statusReport.unknownNamespaces.length}}) <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li class="dropdown-item" *ngFor="let namespace of statusReport.unknownNamespaces">{{namespace.clusterName}}
+            - {{namespace.name}}</li>
+        </ul>
+      </div>
+
+    </div>
+    <div class="col-xs-6 timestamp content_col" *ngIf="statusReport">
+      Time: {{statusReport.timestamp | date : 'medium'}}
+    </div>
+  </div>
+  <application-table class="col-xs-12 content_col" *ngIf="statusReport" [status]="statusReport"></application-table>
+
+</div>
+<application-state [application]="selectedApplication()"></application-state>
