@@ -199,4 +199,36 @@ export class ApplicationTableComponent {
         }
         return instance === null;
     }
+
+    relevantApplications(): ApplicationState[] {
+
+        const result: ApplicationState[] = [];
+
+        for (const app of this.status.applications) {
+            let relevant = false;
+            for (const instance of app.instances) {
+                if (this.envExists(instance.region, instance.stage)) {
+                    relevant = true;
+                }
+            }
+            if (relevant) {
+                result.push(app);
+            }
+        }
+
+        return result;
+    }
+
+    envExists(regionName: string, stageName: string): boolean {
+        for (const region of this.regions) {
+            if (region.name === regionName) {
+                for (const stage of region.stages) {
+                    if (stage === stageName) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

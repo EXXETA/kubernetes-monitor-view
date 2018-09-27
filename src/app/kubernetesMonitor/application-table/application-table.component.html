@@ -26,7 +26,7 @@
         </ng-template>
       </tr>
     </thead>
-    <tbody *ngFor="let app of status.applications; trackBy: trackByFn">
+    <tbody *ngFor="let app of relevantApplications(); trackBy: trackByFn">
       <tr>
         <th scope="row" class="appName">{{app.name}}</th>
         <th scope="row" (click)="toggleDetails(app)" class="chevron">
