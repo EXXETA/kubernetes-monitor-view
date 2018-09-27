@@ -221,9 +221,9 @@ export class ApplicationTableComponent {
 
     envExists(regionName: string, stageName: string): boolean {
         for (const region of this.regions) {
-            if (region.name === regionName) {
+            if (region.name.toUpperCase() === regionName.toUpperCase()) {
                 for (const stage of region.stages) {
-                    if (stage === stageName) {
+                    if (stage.toUpperCase() === stageName.toUpperCase()) {
                         return true;
                     }
                 }
