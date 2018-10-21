@@ -33,7 +33,7 @@ export abstract class KubernetesMonitorService {
 
   abstract alarm(): void;
 
-  private extractDate(res: StatusReport): StatusReport {
+  protected extractDate(res: StatusReport): StatusReport {
     res.timestamp = new Date(res.timestamp);
     return res;
   }

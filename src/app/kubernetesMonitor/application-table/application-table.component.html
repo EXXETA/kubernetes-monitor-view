@@ -28,7 +28,7 @@
     </thead>
     <tbody *ngFor="let app of relevantApplications(); trackBy: trackByFn">
       <tr>
-        <th scope="row" class="appName">{{app.name}}</th>
+        <th scope="row" (click)="toggleDetails(app)" class="appName">{{app.name}}APP</th>
         <th scope="row" (click)="toggleDetails(app)" class="chevron">
           <span appOcticon="{{showDetails(app)?'chevron-down':'chevron-right'}}"></span>&nbsp;
         </th>
