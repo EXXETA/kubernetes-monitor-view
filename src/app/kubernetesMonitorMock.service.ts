@@ -23,6 +23,7 @@ import { ApplicationState } from './kubernetesMonitor/model/ApplicationState';
 import { ApplicationInstanceState } from './kubernetesMonitor/model/ApplicationInstanceState';
 import { Observable, of } from 'rxjs';
 import { ObjectClassState } from './kubernetesMonitor/model/ObjectClassState';
+import { Container } from './kubernetesMonitor/model/Container';
 
 @Injectable()
 export class KubernetesMonitorMockService extends KubernetesMonitorService {
@@ -31,10 +32,39 @@ export class KubernetesMonitorMockService extends KubernetesMonitorService {
   public getCurrentStatus(): Observable<StatusReport> {
     return of(new StatusReport(
       new Date(),
-      [new ApplicationState('Name',
-        [new ApplicationInstanceState('INT', 'EUROPE',
-          [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
-          [], [])])],
+      [
+        new ApplicationState('Name', [
+          new ApplicationInstanceState('INT', 'ECE',
+            [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
+            [], [
+              new Container('container', '0.0.1', true),
+              new Container('container2', 'latest', false)
+            ])]),
+        new ApplicationState('Name3', [
+          new ApplicationInstanceState('INT', 'ECE',
+            [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
+            [], [])]),
+        new ApplicationState('Name4', [
+          new ApplicationInstanceState('INT', 'ECE',
+            [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
+            [], [])]),
+        new ApplicationState('Name5', [
+          new ApplicationInstanceState('INT', 'ECE',
+            [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
+            [], [])]),
+        new ApplicationState('Name6', [
+          new ApplicationInstanceState('INT', 'ECE',
+            [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
+            [], [])]),
+        new ApplicationState('Name7', [
+          new ApplicationInstanceState('INT', 'ECE',
+            [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
+            [], [])]),
+        new ApplicationState('Name2',
+          [new ApplicationInstanceState('INT2', 'ECE2',
+            [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
+            [], [])])
+      ],
       [new UnknownNamespace('a', 'cluster')])
     );
   }
@@ -44,14 +74,16 @@ export class KubernetesMonitorMockService extends KubernetesMonitorService {
   }
 
   public getStages(): { name: string, stages: string[] }[] {
+    // return [
+    //   { 'name': 'Any', 'stages': ['DEV'] },
+    //   { 'name': 'EUROPE', 'stages': ['INT', 'PROD'] },
+    //   { 'name': 'AMERICA', 'stages': ['INT', 'PROD'] },
+    //   { 'name': 'CHINA', 'stages': ['INT', 'PROD'] }
+    // ];
     return [
-      { 'name': 'Any', 'stages': ['DEV'] },
-      { 'name': 'EUROPE', 'stages': ['INT', 'PROD'] },
-      { 'name': 'AMERICA', 'stages': ['INT', 'PROD'] },
-      { 'name': 'CHINA', 'stages': ['INT', 'PROD'] }
+      { 'name': 'ECE', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] },
+      { 'name': 'AMAP', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] },
+      { 'name': 'CHINA', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] }
     ];
-
   }
-
-
 }

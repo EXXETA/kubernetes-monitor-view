@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 import { Component, Input } from '@angular/core';
-import { Logger } from '@nsalaun/ng-logger';
+import { NGXLogger } from 'ngx-logger';
 import { StatusReport } from '../model/StatusReport';
 import { ApplicationState } from '../model/ApplicationState';
 import { ApplicationInstanceState } from '../model/ApplicationInstanceState';
@@ -36,7 +36,7 @@ export class ApplicationTableComponent {
 
     withDetails: String[] = [];
 
-    constructor(private logger: Logger, private kubeMonitorService: KubernetesMonitorService) {
+    constructor(private logger: NGXLogger, private kubeMonitorService: KubernetesMonitorService) {
     }
 
     public debug(): void {

@@ -18,7 +18,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { KubernetesMonitorService } from './kubernetesMonitor.service';
-import { Logger } from '@nsalaun/ng-logger';
+import { NGXLogger } from 'ngx-logger';
 import { StatusReport } from './model/StatusReport';
 import * as moment from 'moment';
 import { ApplicationInstanceState } from './model/ApplicationInstanceState';
@@ -37,7 +37,7 @@ export class KubernetesMonitorComponent implements OnInit {
   timer: any;
 
 
-  constructor(private kubeMonitorService: KubernetesMonitorService, private logger: Logger) {
+  constructor(private kubeMonitorService: KubernetesMonitorService, private logger: NGXLogger) {
   }
 
   ngOnInit() {

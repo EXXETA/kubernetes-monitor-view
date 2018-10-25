@@ -18,7 +18,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ApplicationStateComponent } from './applicationState.component';
-import { Logger } from '@nsalaun/ng-logger';
+import { NGXLogger } from 'ngx-logger';
 import { KubernetesMonitorService } from '../kubernetesMonitor.service';
 
 class LoggerMock { }
@@ -32,7 +32,7 @@ describe('ApplicationStateComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ApplicationStateComponent],
       providers: [
-        { provide: Logger, useClass: LoggerMock },
+        { provide: NGXLogger, useClass: LoggerMock },
         { provide: KubernetesMonitorService, useClass: KubernetesMonitorServiceMock}
       ]
     })

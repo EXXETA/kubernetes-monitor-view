@@ -24,7 +24,7 @@ import { KubernetesMonitorService } from './kubernetesMonitor.service';
 import { ApplicationStateComponent } from './applicationState.component/applicationState.component';
 import { ApplicationTableComponent } from './application-table/application-table.component';
 import { OcticonDirective } from './octicons';
-import { Logger } from '@nsalaun/ng-logger';
+import { NGXLogger } from 'ngx-logger';
 import { ConsoleLoggerService } from './ConsoleLoggerService';
 
 @NgModule({
@@ -41,7 +41,7 @@ import { ConsoleLoggerService } from './ConsoleLoggerService';
   ],
   providers: [
     {
-      provide: Logger,
+      provide: NGXLogger,
       useClass: ConsoleLoggerService,
     }
   ],

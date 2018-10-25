@@ -18,7 +18,7 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { KubernetesMonitorService } from '../kubernetesMonitor.service';
 import { ApplicationInstanceState } from '../model/ApplicationInstanceState';
-import { Logger } from '@nsalaun/ng-logger';
+import { NGXLogger } from 'ngx-logger';
 import { ObjectClassState } from '../model/ObjectClassState';
 
 @Component({
@@ -30,7 +30,7 @@ export class ApplicationStateComponent {
 
     @Input() application: ApplicationInstanceState;
 
-    constructor(public kubeMonitorService: KubernetesMonitorService, private logger: Logger) {
+    constructor(public kubeMonitorService: KubernetesMonitorService, private logger: NGXLogger) {
     }
 
     public debug(): void {
