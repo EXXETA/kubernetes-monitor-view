@@ -48,30 +48,35 @@
           </ng-template>
         </ng-template>
       </tr>
-      <tr [hidden]="!showDetails(app)" *ngFor="let containerName of getContainers(app)" class="containerRow">
-        <td class="containerName">{{containerName}}</td>
-        <td>&nbsp;</td>
-        <ng-template ngFor let-region [ngForOf]="regions">
-          <td class="spacer"></td>
-          <ng-template ngFor let-stage [ngForOf]="region.stages" let-i="index">
-            <!--<td [class]="getContainerClass(app, containerName, region.name, stage)"></td>-->
-            <td class="container">
-              <span class="version red" (click)="selectApplicationInstance(app.name,region.name,stage)" data-toggle="modal"
-                data-target="#applicationState" [hidden]="getContainerClass(app, containerName, region.name, stage)!=='error'" data-backdrop="false">
-                {{getContainerVersion(app, containerName, region.name, stage)}}
-              </span>
-              <span class="version yellow" (click)="selectApplicationInstance(app.name,region.name,stage)" data-toggle="modal"
-                data-target="#applicationState" [hidden]="getContainerClass(app, containerName, region.name, stage)!=='warn'" data-backdrop="false">
-                {{getContainerVersion(app, containerName, region.name, stage)}}
-              </span>
-              <span class="version lightblue" (click)="selectApplicationInstance(app.name,region.name,stage)" data-toggle="modal"
-                data-target="#applicationState" [hidden]="getContainerClass(app, containerName, region.name, stage)!=='ok'" data-backdrop="false">
-                {{getContainerVersion(app, containerName, region.name, stage)}}
-              </span>
-            </td>
+      <ng-template ngFor let-containerName [ngForOf]="getContainers(app)">
+        <tr *ngIf="showDetails(app)" class="containerRow">
+          <td class="containerName">{{containerName}}</td>
+          <td>&nbsp;</td>
+          <ng-template ngFor let-region [ngForOf]="regions">
+            <td class="spacer"></td>
+            <ng-template ngFor let-stage [ngForOf]="region.stages" let-i="index">
+              <!--<td [class]="getContainerClass(app, containerName, region.name, stage)"></td>-->
+              <td class="container">
+                <span class="version red" (click)="selectApplicationInstance(app.name,region.name,stage)" data-toggle="modal"
+                  data-target="#applicationState" [hidden]="getContainerClass(app, containerName, region.name, stage)!=='error'"
+                  data-backdrop="false">
+                  {{getContainerVersion(app, containerName, region.name, stage)}}
+                </span>
+                <span class="version yellow" (click)="selectApplicationInstance(app.name,region.name,stage)"
+                  data-toggle="modal" data-target="#applicationState" [hidden]="getContainerClass(app, containerName, region.name, stage)!=='warn'"
+                  data-backdrop="false">
+                  {{getContainerVersion(app, containerName, region.name, stage)}}
+                </span>
+                <span class="version lightblue" (click)="selectApplicationInstance(app.name,region.name,stage)"
+                  data-toggle="modal" data-target="#applicationState" [hidden]="getContainerClass(app, containerName, region.name, stage)!=='ok'"
+                  data-backdrop="false">
+                  {{getContainerVersion(app, containerName, region.name, stage)}}
+                </span>
+              </td>
+            </ng-template>
           </ng-template>
-        </ng-template>
-      </tr>
+        </tr>
+      </ng-template>
     </tbody>
   </table>
 </div>
