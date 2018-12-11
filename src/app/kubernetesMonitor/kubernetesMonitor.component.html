@@ -1,23 +1,24 @@
 <div class="background kubeMonitor">
-  <div class="row-fluid">
-    <div class="col-xs-6" *ngIf="statusReport">
-      <div class="btn-group">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          Unexpected namespaces ({{statusReport.unknownNamespaces.length}}) <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li class="dropdown-item" *ngFor="let namespace of statusReport.unknownNamespaces">{{namespace.clusterName}}
-            - {{namespace.name}}</li>
-        </ul>
-      </div>
-
-    </div>
-    <div class="col-xs-6 timestamp" *ngIf="statusReport">
-      Time: {{statusReport.timestamp | date : 'medium'}}
-    </div>
-  </div>
   <application-table class="col-xs-12 content_col" *ngIf="statusReport" [status]="statusReport"></application-table>
+  <div class="row">
+    <div class="col-xs-offset-9 col-xs-2" style="border:1px solid black">
 
+        <div class="col-xs-12" *ngIf="statusReport">
+            <div class="btn-group">
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Unexpected namespaces ({{statusReport.unknownNamespaces.length}}) <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <li class="dropdown-item" *ngFor="let namespace of statusReport.unknownNamespaces">{{namespace.clusterName}} - {{namespace.name}}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-xs-12 timestamp" *ngIf="statusReport">
+            Reporttime: <span appOcticon="flame" color="red" *ngIf="oldTimestamp"></span> {{statusReport.timestamp | date : 'medium'}}
+            Environment: {{statusReport.name}}
+          </div>
+    </div> 
+  </div>
 </div>
 <application-state [application]="selectedApplication()"></application-state>

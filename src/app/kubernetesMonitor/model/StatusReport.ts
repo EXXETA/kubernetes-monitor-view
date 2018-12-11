@@ -23,7 +23,8 @@ export class StatusReport {
     constructor(
         public timestamp: Date,
         public applications: ApplicationState[],
-        public unknownNamespaces: UnknownNamespace[]
+        public unknownNamespaces: UnknownNamespace[],
+        public name: String
     ) {
 
     }

@@ -35,6 +35,7 @@ export class KubernetesMonitorComponent implements OnInit {
   interval: number = 5; //minutes
   loading: boolean = true;
   timer: any;
+  oldTimestamp = false;
 
 
   constructor(private kubeMonitorService: KubernetesMonitorService, private logger: NGXLogger) {
@@ -46,27 +47,24 @@ export class KubernetesMonitorComponent implements OnInit {
   private loadStates(): void {
     this.logger.log('Loading report');
     this.kubeMonitorService.getCurrentStatus().subscribe(
-      result => this.newReport(result),
-      () => this.setTimerForNextLoad()
+      result => {
+        var lastTimestamp = this.statusReport==null?0: this.statusReport.timestamp.getTime();
+        this.logger.log(lastTimestamp);
+        this.newReport(result);
+        this.oldTimestamp =  (lastTimestamp==this.statusReport.timestamp.getTime());
+      },
+      () => {
+        this.setTimerForNextLoad();
+        this.oldTimestamp=true;
+      }
     );
   }
 
   private newReport(report: StatusReport): void {
-    //let prevErrors: number = 0;
-    if (this.statusReport !== null) {
-      //prevErrors = this.getErrorCount();
-    }
-
     this.statusReport = report;
     this.loading = false;
 
     this.setTimerForNextLoad();
-
-    /*const newErrorCount: number = this.getErrorCount();
-    if (newErrorCount > prevErrors) {
-      this.logger.warn('Number of issues has increased.');
-      //this.kubeMonitorService.alarm();
-    }*/
   }
 
   private setTimerForNextLoad() {
@@ -105,6 +103,9 @@ export class KubernetesMonitorComponent implements OnInit {
       + this.kubeMonitorService.selectedApplicationRegionName + ' '
       + this.kubeMonitorService.selectedApplicationStageName);
     return null;
+  }
+  public isOldTimestamp(timestamp: Date): boolean {
+    return ( timestamp.getTime()+this.interval  * 10 <moment.now() );
   }
 
 }

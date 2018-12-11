@@ -65,7 +65,8 @@ export class KubernetesMonitorMockService extends KubernetesMonitorService {
             [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
             [], [])])
       ],
-      [new UnknownNamespace('a', 'cluster')])
+      [new UnknownNamespace('a', 'cluster')],
+      'Env-Name')
     );
   }
 
