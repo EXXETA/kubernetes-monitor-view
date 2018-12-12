@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- li.expected, li.unexpected {
+ li {
     list-style-type: none;
     padding: 0px 0px 0px 5px;
     margin-top: 2px;}
@@ -28,6 +28,7 @@ li.unexpected {
 
 ul {
     padding: 0px;
+    font-size: 10px;
 }
 
 .card-body {

@@ -34,34 +34,34 @@ export class KubernetesMonitorMockService extends KubernetesMonitorService {
       new Date(),
       [
         new ApplicationState('Name', [
-          new ApplicationInstanceState('INT', 'ECE',
+          new ApplicationInstanceState('INT', 'ECE', 'namespaceABC',
             [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
             [], [
               new Container('container', '0.0.1', true),
               new Container('container2', 'latest', false)
             ])]),
         new ApplicationState('Name3', [
-          new ApplicationInstanceState('INT', 'ECE',
+          new ApplicationInstanceState('INT', 'ECE', 'namespaceABC',
             [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
             [], [])]),
         new ApplicationState('Name4', [
-          new ApplicationInstanceState('INT', 'ECE',
+          new ApplicationInstanceState('INT', 'ECE', 'namespaceABC',
             [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
             [], [])]),
         new ApplicationState('Name5', [
-          new ApplicationInstanceState('INT', 'ECE',
+          new ApplicationInstanceState('INT', 'ECE', 'namespaceABC',
             [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
             [], [])]),
         new ApplicationState('Name6', [
-          new ApplicationInstanceState('INT', 'ECE',
+          new ApplicationInstanceState('INT', 'ECE', 'namespaceABC',
             [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
             [], [])]),
         new ApplicationState('Name7', [
-          new ApplicationInstanceState('INT', 'ECE',
+          new ApplicationInstanceState('INT', 'ECE', 'namespaceABC',
             [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
             [], [])]),
         new ApplicationState('Name2',
-          [new ApplicationInstanceState('INT2', 'ECE2',
+          [new ApplicationInstanceState('INT2', 'ECE2', 'namespaceABC',
             [new ObjectClassState('pod', 0, 1, ['sample'], ['example'], false)],
             [], [])])
       ],

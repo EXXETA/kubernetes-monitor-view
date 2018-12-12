@@ -23,6 +23,7 @@ export class ApplicationInstanceState {
     constructor(
         public stage: string,
         public region: string,
+        public namespace: string,
         public objectStates: ObjectClassState[],
         public podNotReady: string[],
         public containers: Container[]
