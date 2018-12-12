@@ -30,7 +30,7 @@
       <tr>
         <th scope="row" (click)="toggleDetails(app)" class="appName">{{app.name}}</th>
         <th scope="row" (click)="toggleDetails(app)" class="chevron">
-          <span appOcticon="{{showDetails(app)?'chevron-down':'chevron-right'}}"></span>&nbsp;
+          <span appOcticon="{{showDetails(app)?'chevron-down':'chevron-right'}}" color="#FFFFFF"></span>&nbsp;
         </th>
         <ng-template ngFor let-region [ngForOf]="regions">
           <td class="spacer"></td>
