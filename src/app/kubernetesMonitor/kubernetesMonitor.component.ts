@@ -44,8 +44,13 @@ export class KubernetesMonitorComponent implements OnInit {
   ngOnInit() {
     this.loadStates();
   }
-  private loadStates(): void {
+  public loadStates(): void {
     this.logger.log('Loading report');
+    if (this.timer!=null){
+      this.logger.log(this.timer);
+      clearTimeout(this.timer);
+      this.timer=null;
+    }
     this.kubeMonitorService.getCurrentStatus().subscribe(
       result => {
         var lastTimestamp = this.statusReport==null?0: this.statusReport.timestamp.getTime();
