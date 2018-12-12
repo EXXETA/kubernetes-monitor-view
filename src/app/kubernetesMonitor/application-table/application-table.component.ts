@@ -43,6 +43,10 @@ export class ApplicationTableComponent {
         this.logger.info(this.status);
     }
 
+    public reloadStages():void{
+        this.regions = this.kubeMonitorService.getStages();
+    }
+
     public getClass(appName: string, region, stage) {
         let application: ApplicationState = null;
         for (const app of this.status.applications) {

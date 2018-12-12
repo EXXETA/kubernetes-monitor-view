@@ -15,13 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { KubernetesMonitorService } from './kubernetesMonitor.service';
 import { NGXLogger } from 'ngx-logger';
 import { StatusReport } from './model/StatusReport';
 import * as moment from 'moment';
 import { ApplicationInstanceState } from './model/ApplicationInstanceState';
+import { ApplicationTableComponent } from './application-table/application-table.component';
 
 
 @Component({
@@ -36,6 +37,7 @@ export class KubernetesMonitorComponent implements OnInit {
   loading: boolean = true;
   timer: any;
   oldTimestamp = false;
+  @ViewChild('table') table: ApplicationTableComponent;
 
 
   constructor(private kubeMonitorService: KubernetesMonitorService, private logger: NGXLogger) {
@@ -46,21 +48,25 @@ export class KubernetesMonitorComponent implements OnInit {
   }
   public loadStates(): void {
     this.logger.log('Loading report');
-    if (this.timer!=null){
+    if (this.timer != null) {
       this.logger.log(this.timer);
       clearTimeout(this.timer);
-      this.timer=null;
+      this.timer = null;
     }
+    if (this.table != null) {
+      this.table.reloadStages();
+    }
+
     this.kubeMonitorService.getCurrentStatus().subscribe(
       result => {
-        var lastTimestamp = this.statusReport==null?0: this.statusReport.timestamp.getTime();
+        var lastTimestamp = this.statusReport == null ? 0 : this.statusReport.timestamp.getTime();
         this.logger.log(lastTimestamp);
         this.newReport(result);
-        this.oldTimestamp =  (lastTimestamp==this.statusReport.timestamp.getTime());
+        this.oldTimestamp = (lastTimestamp == this.statusReport.timestamp.getTime());
       },
       () => {
         this.setTimerForNextLoad();
-        this.oldTimestamp=true;
+        this.oldTimestamp = true;
       }
     );
   }
@@ -110,7 +116,7 @@ export class KubernetesMonitorComponent implements OnInit {
     return null;
   }
   public isOldTimestamp(timestamp: Date): boolean {
-    return ( timestamp.getTime()+this.interval  * 10 <moment.now() );
+    return (timestamp.getTime() + this.interval * 10 < moment.now());
   }
 
 }
