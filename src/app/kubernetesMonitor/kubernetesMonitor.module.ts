@@ -23,9 +23,11 @@ import { FormsModule } from '@angular/forms';
 import { KubernetesMonitorService } from './kubernetesMonitor.service';
 import { ApplicationStateComponent } from './applicationState.component/applicationState.component';
 import { ApplicationTableComponent } from './application-table/application-table.component';
+import { KubernetesProjectComponent } from './kubernetes-project/kubernetes-project.component';
 import { OcticonDirective } from './octicons';
 import { NGXLogger } from 'ngx-logger';
 import { ConsoleLoggerService } from './ConsoleLoggerService';
+import { ProjectServiceService} from './project-service.service'
 
 @NgModule({
   imports: [
@@ -37,7 +39,8 @@ import { ConsoleLoggerService } from './ConsoleLoggerService';
     KubernetesMonitorComponent,
     ApplicationStateComponent,
     ApplicationTableComponent,
-    OcticonDirective
+    OcticonDirective,
+    KubernetesProjectComponent
   ],
   providers: [
     {
@@ -54,5 +57,19 @@ export class KubernetesMonitorModule {
   return {
     ngModule: KubernetesMonitorModule
   };
-}
+  }
+
+  static withProject(project_config: any): ModuleWithProviders {
+    ProjectServiceService.prototype.add(project_config);
+    return {
+      ngModule: KubernetesMonitorModule
+    };
+  }
+  constructor(private service: ProjectServiceService) {
+    console.log("init kubernetesmonitormodule");
+  }
+
+  initProjects(project_config: any) {
+    this.service.add(project_config);
+  }
 }

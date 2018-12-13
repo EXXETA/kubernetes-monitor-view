@@ -29,7 +29,7 @@ export abstract class KubernetesMonitorService {
   public selectedApplicationStageName: string;
   public selectedApplicationRegionName: string;
 
-  abstract getCurrentStatus(): Observable<StatusReport>;
+  abstract getCurrentStatus(project: string): Observable<StatusReport>;
 
   abstract alarm(): void;
 
@@ -46,7 +46,6 @@ export abstract class KubernetesMonitorService {
 
   abstract getStages(): { name: string, stages: string[] }[];
 
-
-
+  abstract getProjects(): { name: string, restAPI: string }[];
 
 }

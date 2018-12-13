@@ -179,3 +179,11 @@ td.container {
 th.stage {
  font-size: 0.9em;
 }
+
+.modal-dialog-full {
+    width: 95% !important;
+}
+
+.modal-body { 
+    overflow-y: scroll
+}

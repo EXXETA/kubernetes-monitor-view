@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NGXLogger } from 'ngx-logger';
 import { StatusReport } from '../model/StatusReport';
 import { ApplicationState } from '../model/ApplicationState';
@@ -31,6 +31,8 @@ import { Container } from '../model/Container';
 export class ApplicationTableComponent {
     @Input()
     status: StatusReport;
+    @Output() onWarning = new EventEmitter();
+    @Input() project;
 
     regions = this.kubeMonitorService.getStages();
 
@@ -90,6 +92,7 @@ export class ApplicationTableComponent {
             return null;
         }
         if (this.hasErrors(instance)) {
+            this.onWarning.emit();
             return false;
         }
         return true;

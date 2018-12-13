@@ -29,6 +29,20 @@ import { Container } from './kubernetesMonitor/model/Container';
 export class KubernetesMonitorMockService extends KubernetesMonitorService {
 
 
+  public getProjects() {
+
+    return [
+      {
+          name: "Tapas",
+          restAPI: "Tapas"
+      }, {
+          name: "Vedoc",
+          restAPI: "Vedoc"
+      }
+    ]
+  }
+
+
   public getCurrentStatus(): Observable<StatusReport> {
     return of(new StatusReport(
       new Date(),

@@ -15,13 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
 import { KubernetesMonitorService } from './kubernetesMonitor.service';
 import { NGXLogger } from 'ngx-logger';
 import { StatusReport } from './model/StatusReport';
 import * as moment from 'moment';
 import { ApplicationInstanceState } from './model/ApplicationInstanceState';
+import { ProjectServiceService } from './project-service.service';
 
 
 @Component({
@@ -31,25 +32,39 @@ import { ApplicationInstanceState } from './model/ApplicationInstanceState';
 })
 export class KubernetesMonitorComponent implements OnInit {
 
+  projects: any;
+  currentProject: any;
   statusReport: StatusReport;
-  interval: number = 5; //minutes
+  interval: number = 1; //minutes
   loading: boolean = true;
   timer: any;
+  show_application_table: boolean = false;
+  @Input() project: any; // Create Project Class...
+  @Output() onTenantError = new EventEmitter();
 
-
-  constructor(private kubeMonitorService: KubernetesMonitorService, private logger: NGXLogger) {
+  constructor(private kubeMonitorService: KubernetesMonitorService, private logger: NGXLogger, private projectService: ProjectServiceService) {
   }
 
   ngOnInit() {
-    this.loadStates();
+    //this.loadStates();
+    this.loadProjects();
   }
+
+  private loadProjects(): void {
+    this.logger.log('Loading projects');
+    this.projects = this.kubeMonitorService.getProjects();
+  }
+
+  
   private loadStates(): void {
     this.logger.log('Loading report');
-    this.kubeMonitorService.getCurrentStatus().subscribe(
+    this.kubeMonitorService.getCurrentStatus("").subscribe(
       result => this.newReport(result),
       () => this.setTimerForNextLoad()
     );
   }
+
+
 
   private newReport(report: StatusReport): void {
     //let prevErrors: number = 0;
@@ -59,6 +74,7 @@ export class KubernetesMonitorComponent implements OnInit {
 
     this.statusReport = report;
     this.loading = false;
+    this.show_application_table = true;
 
     this.setTimerForNextLoad();
 
@@ -67,6 +83,22 @@ export class KubernetesMonitorComponent implements OnInit {
       this.logger.warn('Number of issues has increased.');
       //this.kubeMonitorService.alarm();
     }*/
+  }
+
+  setProject(project: any) {
+    console.log("New Project selected:", project);
+    this.currentProject = project.clusterName;
+    this.loadStates();
+  }
+
+  getProjectStatusReport(project_name: string) {
+    console.log("Get Project Status Report")
+    this.show_application_table = false;
+    this.kubeMonitorService.getCurrentStatus(project_name).subscribe((result) => {
+      console.log(result);
+      this.newReport(result);
+      this.setTimerForNextLoad();
+    });
   }
 
   private setTimerForNextLoad() {
@@ -107,5 +139,16 @@ export class KubernetesMonitorComponent implements OnInit {
     return null;
   }
 
+  onWarning(event: any) {
+    //console.log("On Warning: " + event);
+    //this.onTenantError.emit("Hier kommt der Tenant, der Probleme hat...");
+  }
+
+
+  onSelectProject(project: any) {
+    console.log("Project Selected:", project);
+    this.statusReport = project.project_status;
+    this.show_application_table = true;
+  }
 }
 

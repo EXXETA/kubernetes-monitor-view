@@ -11,14 +11,14 @@
   "license": "Apache License 2.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --port 4201",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "font": "node ./node_modules/webpack/bin/webpack.js",
     "packagr": "ng-packagr -p ng-package.json",
-    "full-package": "npm run packagr && npm pack ./dist && mv *kubernetes-monitor-view-*.tgz kubernetes-monitor-view.tgz"
+    "full-package": "npm run packagr && npm pack ./dist && move *kubernetes-monitor-view-*.tgz kubernetes-monitor-view.tgz"
   },
   "private": true,
   "peerDependencies": {

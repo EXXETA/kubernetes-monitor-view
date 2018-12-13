@@ -1,13 +1,13 @@
-<div class="background kubeMonitor">
-  <div class="row-fluid">
-    <div class="col-xs-6" *ngIf="statusReport">
+<div class="background kubeMonitor" style="background: #03a3b2">
+  <div class="">
+    <!--<div class="col-xs-6" *ngIf="statusReport">
       <div class="btn-group">
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
-          Unexpected namespaces ({{statusReport.unknownNamespaces.length}}) <span class="caret"></span>
+          Unexpected namespacess ({{statusReport.unknownNamespaces.length}}) <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <li class="dropdown-item" *ngFor="let namespace of statusReport.unknownNamespaces">{{namespace.clusterName}}
+          <li class="dropdown-item" *ngFor="let namespace of statusReport.unknownNamespaces" (click)="setProject(namespace)">{{namespace.clusterName}}
             - {{namespace.name}}</li>
         </ul>
       </div>
@@ -15,9 +15,25 @@
     </div>
     <div class="col-xs-6 timestamp" *ngIf="statusReport">
       Time: {{statusReport.timestamp | date : 'medium'}}
+    </div>-->
+
+    <div style="margin: 20px;" *ngIf="!show_application_table">
+      <div class="row text-center">
+        <div class="col-xs-12">
+          <kubernetes-project *ngFor="let project of projects" [project]="project" (onSelect)="onSelectProject($event)" ></kubernetes-project>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="statusReport && show_application_table">
+      <div class="row" style="margin: 15px">
+        <div class="col-xs-12">
+          <button class="btn btn-default">
+            <span appOcticon="home" width="25" color="black" (click)="show_application_table = false"></span>
+          </button>
+        </div>
+      </div>
+      <application-table class="col-xs-12 content_col" *ngIf="statusReport && show_application_table" [status]="statusReport"
+        (onWarning)="onWarning($event)"></application-table>
     </div>
   </div>
-  <application-table class="col-xs-12 content_col" *ngIf="statusReport" [status]="statusReport"></application-table>
-
 </div>
-<application-state [application]="selectedApplication()"></application-state>

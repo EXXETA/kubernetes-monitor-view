@@ -24,4 +24,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = '';
+
+  constructor() {
+    console.log("KubernetesMonitorView")
+  }
+
+  onTenantError(event: any) {
+    console.log("Ein Tenant fehlgeschlagen" , event);
+  }
 }

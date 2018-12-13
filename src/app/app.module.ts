@@ -24,7 +24,6 @@ import { KubernetesMonitorMockService } from './kubernetesMonitorMock.service';
 
 
 
-
 @NgModule({
   declarations: [
     AppComponent
