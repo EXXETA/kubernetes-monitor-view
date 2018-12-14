@@ -13,7 +13,8 @@
         <th scope="col" rowspan="2" colspan="2" (click)="debug()">&nbsp;</th>
         <ng-template ngFor let-region [ngForOf]="regions">
           <th class="spacer"></th>
-          <th scope="col" [attr.colspan]="region.stages.length" class="firstStage region">{{region.name}}</th>
+          <th  *ngIf="!hideRegions" scope="col" [attr.colspan]="region.stages.length" class="firstStage region">{{region.name}}</th>
+          <th  *ngIf="hideRegions" scope="col" [attr.colspan]="region.stages.length" class="firstStage region"></th>
         </ng-template>
       </tr>
 

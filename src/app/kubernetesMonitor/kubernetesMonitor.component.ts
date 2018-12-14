@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 
 import { KubernetesMonitorService } from './kubernetesMonitor.service';
 import { NGXLogger } from 'ngx-logger';
@@ -38,12 +38,16 @@ export class KubernetesMonitorComponent implements OnInit {
   timer: any;
   oldTimestamp = false;
   @ViewChild('table') table: ApplicationTableComponent;
+  @Input() kubeMonitorService: KubernetesMonitorService;
+  @Input() hideRegions;
 
+  constructor(private logger: NGXLogger) {
 
-  constructor(private kubeMonitorService: KubernetesMonitorService, private logger: NGXLogger) {
   }
 
   ngOnInit() {
+    this.logger.log("from KubernetesMonitorComponent");
+    this.logger.log(this.kubeMonitorService);
     this.loadStates();
   }
   public loadStates(): void {

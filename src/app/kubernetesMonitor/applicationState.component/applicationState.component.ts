@@ -29,8 +29,9 @@ import { ObjectClassState } from '../model/ObjectClassState';
 export class ApplicationStateComponent {
 
     @Input() application: ApplicationInstanceState;
+    @Input() service: KubernetesMonitorService;
 
-    constructor(public kubeMonitorService: KubernetesMonitorService, private logger: NGXLogger) {
+    constructor(private logger: NGXLogger) {
     }
 
     public debug(): void {
@@ -50,14 +51,14 @@ export class ApplicationStateComponent {
     }
 
     public getAppName(): string {
-        return this.kubeMonitorService.selectedApplicationName;
+        return this.service.selectedApplicationName;
     }
 
     public getRegion(): string {
-        return this.kubeMonitorService.selectedApplicationRegionName;
+        return this.service.selectedApplicationRegionName;
     }
     public getStage(): string {
-        return this.kubeMonitorService.selectedApplicationStageName;
+        return this.service.selectedApplicationStageName;
     }
     public getTrackBy(objectState: ObjectClassState): String {
         return objectState.objectClass;

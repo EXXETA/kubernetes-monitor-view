@@ -33,11 +33,6 @@ import { KubernetesMonitorMockService } from './kubernetesMonitorMock.service';
     BrowserModule,
     KubernetesMonitorModule.forRoot()
   ],
-  providers: [
-    {
-      provide: KubernetesMonitorService, useClass: KubernetesMonitorMockService
-    }
-  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

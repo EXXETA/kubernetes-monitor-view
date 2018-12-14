@@ -1,5 +1,5 @@
 <div class="background kubeMonitor">
-  <application-table #table class="col-xs-12 content_col" *ngIf="statusReport" [status]="statusReport"></application-table>
+  <application-table #table class="col-xs-12 content_col" *ngIf="statusReport" [status]="statusReport" [kubeMonitorService]="kubeMonitorService" [hideRegions]="hideRegions"></application-table>
   <div class="row">
     <div class="col-xs-offset-9 col-xs-2" style="border:1px solid black" *ngIf="statusReport" >
 
@@ -21,4 +21,4 @@
     </div> 
   </div>
 </div>
-<application-state [application]="selectedApplication()"></application-state>
+<application-state [application]="selectedApplication()" [service]="kubeMonitorService"></application-state>

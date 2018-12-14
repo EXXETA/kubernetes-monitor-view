@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NGXLogger } from 'ngx-logger';
 import { StatusReport } from '../model/StatusReport';
 import { ApplicationState } from '../model/ApplicationState';
@@ -28,15 +28,22 @@ import { Container } from '../model/Container';
     templateUrl: 'application-table.component.html',
     styleUrls: ['application-table.component.scss']
 })
-export class ApplicationTableComponent {
+export class ApplicationTableComponent  implements OnInit {
     @Input()
     status: StatusReport;
 
-    regions = this.kubeMonitorService.getStages();
+    @Input() kubeMonitorService: KubernetesMonitorService;
+    @Input() hideRegions = false;
+
+    regions;
 
     withDetails: String[] = [];
 
-    constructor(private logger: NGXLogger, private kubeMonitorService: KubernetesMonitorService) {
+    constructor(private logger: NGXLogger) {
+        
+    }
+    ngOnInit() {
+        this.regions= this.kubeMonitorService.getStages();
     }
 
     public debug(): void {
