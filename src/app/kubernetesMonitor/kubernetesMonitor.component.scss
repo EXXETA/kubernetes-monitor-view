@@ -18,13 +18,11 @@
  @import '../../assets/scss/colors';
 
 .background.kubeMonitor {
-  //background-image: url("../../assets/images/backgrounds/kubeMonitor/serverroom.jpg");
-  //background-color: $color-background;
   position: relative;
   display: block;
   width: 100%;
-  height: 100vh;
-  overflow: auto;
+  height: 80vh;
+  overflow-y: auto;
   margin: 0;
   top: 0;
   left: 0;
