@@ -19,19 +19,27 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StatusReport } from './model/StatusReport';
+import { map } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export abstract class KubernetesMonitorService {
 
-
+  constructor(private http: HttpClient) {
+  }
 
   public selectedApplicationName: string;
   public selectedApplicationStageName: string;
   public selectedApplicationRegionName: string;
 
-  abstract getCurrentStatus(): Observable<StatusReport>;
+  public selectedDomain: any;
 
-  abstract alarm(): void;
+  //abstract getCurrentStatus(): Observable<StatusReport>;
+
+  public alarm(): void {
+    console.log("Alarm");
+  }
 
   protected extractDate(res: StatusReport): StatusReport {
     res.timestamp = new Date(res.timestamp);
@@ -39,14 +47,28 @@ export abstract class KubernetesMonitorService {
   }
 
   public selectApplicationInstance(appName: string, region: string, stage: string) {
+    console.log("Set Application Instance ", appName, region, stage)
     this.selectedApplicationName = appName;
     this.selectedApplicationStageName = stage;
     this.selectedApplicationRegionName = region;
   }
 
-  abstract getStages(): { name: string, stages: string[] }[];
+  getCurrentStatusNew(domain: any): Observable<StatusReport> {
 
+    return this.http.get<StatusReport>(domain.url).pipe(
+      map((res) => { res.timestamp = new Date(res.timestamp); return res })
+    );
+  }
 
+  public selectDomain(domain: any) {
+    this.selectedDomain = domain;
+  }
 
+  public getSelectedDomain(): { name: string, url: string, stages: { name: string, stages: string[] }[] } {
+    return this.selectedDomain;
+  }
 
+  public getStages(): { name: string, stages: string[] }[] {
+      return this.selectedDomain.stages;
+  }
 }

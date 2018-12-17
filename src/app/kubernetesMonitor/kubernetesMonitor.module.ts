@@ -23,21 +23,25 @@ import { FormsModule } from '@angular/forms';
 import { KubernetesMonitorService } from './kubernetesMonitor.service';
 import { ApplicationStateComponent } from './applicationState.component/applicationState.component';
 import { ApplicationTableComponent } from './application-table/application-table.component';
+import { DomainComponent } from './domain/domain.component';
 import { OcticonDirective } from './octicons';
 import { NGXLogger } from 'ngx-logger';
 import { ConsoleLoggerService } from './ConsoleLoggerService';
+import { HttpClientModule } from '@angular/common/http'; 
 
 @NgModule({
   imports: [
     CommonModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   declarations: [
     KubernetesMonitorComponent,
     ApplicationStateComponent,
     ApplicationTableComponent,
-    OcticonDirective
+    OcticonDirective,
+    DomainComponent
   ],
   providers: [
     {

@@ -24,5 +24,40 @@ import { KubernetesMonitorMockService } from './kubernetesMonitorMock.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  service = new KubernetesMonitorMockService();
+  //service = new KubernetesMonitorMockService();
+
+  domainConfig: any = [
+    {
+      name: "Projekt1",
+      status: "warning",
+      timestamp: "",
+      url: "http://localhost:8080/rest/rest/Tapas",
+      stages: [
+        { 'name': 'Any', 'stages': ['DEV'] },
+        { 'name': 'ECE', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] },
+        { 'name': 'AMAP', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] },
+        { 'name': 'CHINA', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] }
+      ]
+    }, {
+      name: "Projekt2",
+      status: "good",
+      url: "http://localhost:8080/rest/rest/Vedoc",
+      stages: [
+        { 'name': 'Any', 'stages': ['DEV'] },
+        { 'name': 'ECE', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] },
+        { 'name': 'AMAP', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] },
+        { 'name': 'CHINA', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] }
+      ]
+    },{
+      name: "Projekt3",
+      status: "danger",
+      url: "http://localhost:8080/rest/rest/projekt3",
+      stages: [
+        { 'name': 'Any', 'stages': ['DEV'] },
+        { 'name': 'ECE', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] },
+        { 'name': 'AMAP', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] },
+        { 'name': 'CHINA', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] }
+      ]
+    }
+  ]
 }

@@ -23,6 +23,7 @@ import { StatusReport } from './model/StatusReport';
 import * as moment from 'moment';
 import { ApplicationInstanceState } from './model/ApplicationInstanceState';
 import { ApplicationTableComponent } from './application-table/application-table.component';
+import { Domain } from './model/Domain';
 
 
 @Component({
@@ -40,14 +41,17 @@ export class KubernetesMonitorComponent implements OnInit {
   @ViewChild('table') table: ApplicationTableComponent;
   @Input() kubeMonitorService: KubernetesMonitorService;
   @Input() hideRegions;
+  @Input() domainConfig: any = [];
 
-  constructor(private logger: NGXLogger) {
+  tableView: boolean = false;
+
+  constructor(private logger: NGXLogger, public kubernetesMonitorService: KubernetesMonitorService) {
 
   }
 
   ngOnInit() {
     this.logger.log("from KubernetesMonitorComponent");
-    this.logger.log(this.kubeMonitorService);
+    this.logger.log(this.kubernetesMonitorService);
     this.loadStates();
   }
   public loadStates(): void {
@@ -61,6 +65,7 @@ export class KubernetesMonitorComponent implements OnInit {
       this.table.reloadStages();
     }
 
+    /*
     this.kubeMonitorService.getCurrentStatus().subscribe(
       result => {
         var lastTimestamp = this.statusReport == null ? 0 : this.statusReport.timestamp.getTime();
@@ -73,6 +78,7 @@ export class KubernetesMonitorComponent implements OnInit {
         this.oldTimestamp = true;
       }
     );
+    */
   }
 
   private newReport(report: StatusReport): void {
@@ -98,16 +104,16 @@ export class KubernetesMonitorComponent implements OnInit {
 
   public selectedApplication(): ApplicationInstanceState {
     if (this.statusReport === undefined
-      || this.kubeMonitorService.selectedApplicationRegionName === null
-      || this.kubeMonitorService.selectedApplicationRegionName === undefined) {
+      || this.kubernetesMonitorService.selectedApplicationRegionName === null
+      || this.kubernetesMonitorService.selectedApplicationRegionName === undefined) {
       return null;
     }
 
     for (const app of this.statusReport.applications) {
-      if (app.name === this.kubeMonitorService.selectedApplicationName) {
+      if (app.name === this.kubernetesMonitorService.selectedApplicationName) {
         for (const inst of app.instances) {
-          if (inst.region.toLowerCase() === this.kubeMonitorService.selectedApplicationRegionName.toLowerCase()
-            && inst.stage.toLowerCase() === this.kubeMonitorService.selectedApplicationStageName.toLowerCase()) {
+          if (inst.region.toLowerCase() === this.kubernetesMonitorService.selectedApplicationRegionName.toLowerCase()
+            && inst.stage.toLowerCase() === this.kubernetesMonitorService.selectedApplicationStageName.toLowerCase()) {
             return inst;
           }
         }
@@ -121,6 +127,25 @@ export class KubernetesMonitorComponent implements OnInit {
   }
   public isOldTimestamp(timestamp: Date): boolean {
     return (timestamp.getTime() + this.interval * 10 < moment.now());
+  }
+
+
+  selectDomain(domain: Domain) {
+
+    this.kubernetesMonitorService.selectDomain(domain);
+    this.kubernetesMonitorService.getCurrentStatusNew(domain).subscribe(
+      result => {
+        var lastTimestamp = this.statusReport == null ? 0 : this.statusReport.timestamp.getTime();
+        this.logger.log(lastTimestamp);
+        this.newReport(result);
+        this.oldTimestamp = (lastTimestamp == this.statusReport.timestamp.getTime());
+        this.tableView = true;
+      },
+      () => {
+        this.setTimerForNextLoad();
+        this.oldTimestamp = true;
+      }
+    );
   }
 
 }

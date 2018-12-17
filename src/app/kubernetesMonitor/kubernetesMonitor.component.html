@@ -1,24 +1,43 @@
 <div class="background kubeMonitor">
-  <application-table #table class="col-xs-12 content_col" *ngIf="statusReport" [status]="statusReport" [kubeMonitorService]="kubeMonitorService" [hideRegions]="hideRegions"></application-table>
-  <div class="row">
-    <div class="col-xs-offset-9 col-xs-2" style="border:1px solid black" *ngIf="statusReport" >
 
-        <div class="col-xs-12" *ngIf="statusReport">
-            <div class="btn-group">
-              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                Unexpected namespaces ({{statusReport.unknownNamespaces.length}}) <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li class="dropdown-item" *ngFor="let namespace of statusReport.unknownNamespaces">{{namespace.clusterName}} - {{namespace.name}}</li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-xs-12 timestamp" *ngIf="statusReport">
-            Reporttime: <span appOcticon="flame" color="red" *ngIf="oldTimestamp"></span> {{statusReport.timestamp | date : 'medium'}}<br>
-            Environment: {{statusReport.name}}
-          </div>
-    </div> 
+  <div class="domain-container">
+    <button class="btn btn-default" *ngIf="tableView">
+      <span appOcticon="home" width="25" color="black" (click)="tableView = !tableView"></span>
+    </button>
+
+    <div *ngIf="domainConfig.length == 0 && !tableView" class="text-center">
+      <h3>No domains defined</h3>
+    </div>
+    <div class="row" *ngIf="domainConfig.length > 0 && !tableView">
+      <div class="col-md-2" *ngFor="let domain of domainConfig">
+        <app-domain [domain]="domain" (click)="selectDomain(domain)"></app-domain>
+      </div>
+    </div>
+  </div>
+
+  <application-table #table class="col-xs-12 content_col" *ngIf="statusReport && tableView" [status]="statusReport"
+    [kubeMonitorService]="kubernetesMonitorService" [hideRegions]="hideRegions"></application-table>
+  <div class="row">
+    <div class="col-xs-offset-9 col-xs-2" style="border:1px solid black" *ngIf="statusReport">
+
+      <div class="col-xs-12" *ngIf="statusReport">
+        <div class="btn-group">
+          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Unexpected namespaces ({{statusReport.unknownNamespaces.length}}) <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li class="dropdown-item" *ngFor="let namespace of statusReport.unknownNamespaces">{{namespace.clusterName}}
+              - {{namespace.name}}</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-xs-12 timestamp" *ngIf="statusReport">
+        Reporttime: <span appOcticon="flame" color="red" *ngIf="oldTimestamp"></span> {{statusReport.timestamp | date :
+        'medium'}}<br>
+        Environment: {{statusReport.name}}
+      </div>
+    </div>
   </div>
 </div>
-<application-state [application]="selectedApplication()" [service]="kubeMonitorService"></application-state>
+<application-state [application]="selectedApplication()" [service]="kubernetesMonitorService"></application-state>
