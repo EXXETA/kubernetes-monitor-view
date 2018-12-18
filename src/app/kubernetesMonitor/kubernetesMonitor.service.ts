@@ -20,6 +20,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { StatusReport } from './model/StatusReport';
 import { map } from 'rxjs/operators';
+import { Domain } from './model/Domain';
 
 @Injectable({
   providedIn: 'root'
@@ -53,7 +54,7 @@ export abstract class KubernetesMonitorService {
     this.selectedApplicationRegionName = region;
   }
 
-  getCurrentStatusNew(domain: any): Observable<StatusReport> {
+  getCurrentStatus(domain: Domain): Observable<StatusReport> {
 
     return this.http.get<StatusReport>(domain.url).pipe(
       map((res) => { res.timestamp = new Date(res.timestamp); return res })

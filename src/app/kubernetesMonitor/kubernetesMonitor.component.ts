@@ -133,7 +133,7 @@ export class KubernetesMonitorComponent implements OnInit {
   selectDomain(domain: Domain) {
 
     this.kubernetesMonitorService.selectDomain(domain);
-    this.kubernetesMonitorService.getCurrentStatusNew(domain).subscribe(
+    this.kubernetesMonitorService.getCurrentStatus(domain).subscribe(
       result => {
         var lastTimestamp = this.statusReport == null ? 0 : this.statusReport.timestamp.getTime();
         this.logger.log(lastTimestamp);
