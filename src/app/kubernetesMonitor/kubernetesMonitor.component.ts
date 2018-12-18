@@ -129,6 +129,10 @@ export class KubernetesMonitorComponent implements OnInit {
     return (timestamp.getTime() + this.interval * 10 < moment.now());
   }
 
+  getSelectedDomain() {
+    return this.kubernetesMonitorService.getSelectedDomain();
+  }
+
 
   selectDomain(domain: Domain) {
 

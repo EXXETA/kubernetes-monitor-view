@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <application-table #table class="col-xs-12 content_col" *ngIf="statusReport && tableView" [status]="statusReport"
+  <application-table #table class="col-xs-12 content_col" *ngIf="statusReport && tableView" [status]="statusReport" [domain]="getSelectedDomain()"
     [kubeMonitorService]="kubernetesMonitorService" [hideRegions]="hideRegions"></application-table>
   <div class="row">
     <div class="col-xs-offset-9 col-xs-2" style="border:1px solid black" *ngIf="statusReport">

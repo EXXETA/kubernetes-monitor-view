@@ -34,6 +34,7 @@ export class ApplicationTableComponent  implements OnInit {
 
     @Input() kubeMonitorService: KubernetesMonitorService;
     @Input() hideRegions = false;
+    @Input() domain: any;
 
     regions;
 
