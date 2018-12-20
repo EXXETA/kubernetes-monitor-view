@@ -1,6 +1,8 @@
-<div [ngClass]="getClass()">
+<div class="domain-container">
   <p class="text-center title">{{domain.name}}</p>
-  <small><b>Last Update:</b> {{getLastUpdate()}} 
+  <div style="height: 30px; width: 30px;" [ngClass]="getClass()">
+  </div>
+  <small *ngIf="status_data" class="last_update"><b>Last Update:</b> {{getLastUpdate()}} 
       <span *ngIf="lastUpdateWarning()" class="dot blue" appOcticon="alert" color="#e74c3c" data-backdrop="false"></span>
   </small>
 </div>

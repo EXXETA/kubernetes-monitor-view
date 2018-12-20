@@ -54,9 +54,10 @@ import { HttpClientModule } from '@angular/common/http';
   ]
 })
 export class KubernetesMonitorModule {
+
   static forRoot (): ModuleWithProviders {
   return {
     ngModule: KubernetesMonitorModule
   };
-}
+  }
 }

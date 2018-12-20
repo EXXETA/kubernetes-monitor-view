@@ -1,6 +1,8 @@
 .domain-container {
   height: auto;
+  min-height: 12rem;
   padding: 15px;
+  background-color: #ffffff;
 }
 
 .background-warning {
@@ -12,9 +14,18 @@
 }
 
 .background-good {
-  background-color: #27ae60
+  background-color: #2980b9
 }
 
 .title {
   font-size: 4rem;
+  color: #000000;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+}
+
+.last_update {
+  color: #000000;
 }

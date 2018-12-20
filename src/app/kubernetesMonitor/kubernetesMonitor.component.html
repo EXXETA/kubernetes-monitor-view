@@ -5,12 +5,12 @@
       <span appOcticon="home" width="25" color="black"></span>
     </button>
 
-    <div *ngIf="domainConfig.length == 0 && !tableView" class="text-center">
+    <div *ngIf="domainConfig.domains.length == 0 && !tableView" class="text-center">
       <h3>No domains defined</h3>
     </div>
-    <div class="row" *ngIf="domainConfig.length > 0 && !tableView">
-      <div class="col-md-2" *ngFor="let domain of domainConfig" (click)="selectDomain(domain)">
-        <app-domain [domain]="domain"></app-domain>
+    <div class="row" *ngIf="domainConfig.domains.length > 0 && !tableView">
+      <div class="col-md-2" *ngFor="let domain of domainConfig.domains" (click)="selectDomain(domain)">
+        <app-domain [domain]="domain" [status_interval]="domainConfig.status_interval"></app-domain>
       </div>
     </div>
   </div>

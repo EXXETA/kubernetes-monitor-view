@@ -24,6 +24,7 @@ import * as moment from 'moment';
 import { ApplicationInstanceState } from './model/ApplicationInstanceState';
 import { ApplicationTableComponent } from './application-table/application-table.component';
 import { Domain } from './model/Domain';
+import { StatusServiceService } from './status-service.service';
 
 
 @Component({
@@ -45,11 +46,12 @@ export class KubernetesMonitorComponent implements OnInit {
 
   tableView: boolean = false;
 
-  constructor(private logger: NGXLogger, public kubernetesMonitorService: KubernetesMonitorService) {
-
+  constructor(private logger: NGXLogger, public kubernetesMonitorService: KubernetesMonitorService, private statusService: StatusServiceService) {
+    
   }
 
   ngOnInit() {
+    this.statusService.setStatusURL(this.domainConfig.statusURL);
     this.logger.log("from KubernetesMonitorComponent");
     this.logger.log(this.kubernetesMonitorService);
     this.loadStates();
@@ -64,21 +66,6 @@ export class KubernetesMonitorComponent implements OnInit {
     if (this.table != null) {
       this.table.reloadStages();
     }
-
-    /*
-    this.kubeMonitorService.getCurrentStatus().subscribe(
-      result => {
-        var lastTimestamp = this.statusReport == null ? 0 : this.statusReport.timestamp.getTime();
-        this.logger.log(lastTimestamp);
-        this.newReport(result);
-        this.oldTimestamp = (lastTimestamp == this.statusReport.timestamp.getTime());
-      },
-      () => {
-        this.setTimerForNextLoad();
-        this.oldTimestamp = true;
-      }
-    );
-    */
   }
 
   private newReport(report: StatusReport): void {
@@ -120,9 +107,13 @@ export class KubernetesMonitorComponent implements OnInit {
       }
 
     }
+    // Erzeugt ein Bug. Wurde auskommentiert (Inan)
+    /*
+  
     this.logger.warn('selectedAppNotFound '
       + this.kubeMonitorService.selectedApplicationRegionName + ' '
       + this.kubeMonitorService.selectedApplicationStageName);
+      */
     return null;
   }
   public isOldTimestamp(timestamp: Date): boolean {

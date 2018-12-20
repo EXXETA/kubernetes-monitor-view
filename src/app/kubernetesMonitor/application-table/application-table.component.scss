@@ -179,3 +179,18 @@ td.container {
 th.stage {
  font-size: 0.9em;
 }
+
+.title {
+    color: #FFFFFF;
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: left;
+    text-transform: uppercase;
+    vertical-align: middle;
+    position: relative;
+    padding-left: 5rem;
+  }
+
+  .content_col {
+      margin-top: 0 !important;
+  }
