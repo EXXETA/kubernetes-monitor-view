@@ -8,3 +8,10 @@ cache:
     - node_modules
 script:
  - npm run full-package
+ deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: "kubernetes-monitor-view.tgz"
+  skip_cleanup: true
+  on:
+    tags: true
