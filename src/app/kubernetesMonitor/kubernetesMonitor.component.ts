@@ -6,9 +6,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,8 +33,8 @@ import { ApplicationTableComponent } from './application-table/application-table
 export class KubernetesMonitorComponent implements OnInit {
 
   statusReport: StatusReport;
-  interval: number = 5; //minutes
-  loading: boolean = true;
+  interval = 5; // minutes
+  loading = true;
   timer: any;
   oldTimestamp = false;
   @ViewChild('table') table: ApplicationTableComponent;
@@ -46,7 +46,7 @@ export class KubernetesMonitorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.logger.log("from KubernetesMonitorComponent");
+    this.logger.log('from KubernetesMonitorComponent');
     this.logger.log(this.kubeMonitorService);
     this.loadStates();
   }
@@ -63,10 +63,10 @@ export class KubernetesMonitorComponent implements OnInit {
 
     this.kubeMonitorService.getCurrentStatus().subscribe(
       result => {
-        var lastTimestamp = this.statusReport == null ? 0 : this.statusReport.timestamp.getTime();
+        const lastTimestamp = this.statusReport == null ? 0 : this.statusReport.timestamp.getTime();
         this.logger.log(lastTimestamp);
         this.newReport(result);
-        this.oldTimestamp = (lastTimestamp == this.statusReport.timestamp.getTime());
+        this.oldTimestamp = (lastTimestamp === this.statusReport.timestamp.getTime());
       },
       () => {
         this.setTimerForNextLoad();
