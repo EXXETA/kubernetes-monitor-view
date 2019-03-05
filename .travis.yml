@@ -6,6 +6,9 @@ sudo: false
 cache:
   directories:
     - node_modules
+before_script:
+  - GIT_TAG=$TRAVIS_TAG
+  - node travis-version-updater.js $GIT_TAG
 script:
  - npm run full-package
 deploy:
