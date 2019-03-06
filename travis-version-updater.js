@@ -22,9 +22,9 @@ if (fs.existsSync(fileName)) {
     fs.writeFile(fileName, JSON.stringify(file, null, 2), function (err) {
 
       if (err) {
-        return console.log(err);
+        console.log(err);
       } else {
-        console.log("Angular Package.json Version updated to " + argv[2])
+        console.log("package.json version updated to " + argv[2])
       }
     });
   } else {
