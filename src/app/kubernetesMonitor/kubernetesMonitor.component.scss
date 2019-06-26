@@ -15,13 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- @import '../../assets/scss/colors';
+@import '../../assets/scss/colors';
 
 .background.kubeMonitor {
   position: relative;
   display: block;
   width: 100%;
-  height: 80vh;
+  height: auto;
   overflow-y: auto;
   margin: 0;
   top: 0;
@@ -31,69 +31,9 @@
   background-size: cover;
 }
 
-.infowall_feedback_container {
-  display: grid;
-  grid-template-columns: 55%;
-  height: 100%;
-  width: 100%;
-  grid-column-gap: 35px;
-  //color: $color-exxeta-amazonit3;
-
-  .infowall_feedback_column {
-    //background-color: $color-exxeta-white;
-    padding: 2rem 4rem;
-    position: relative;
-    box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 2px 4px 0 rgba(0, 0, 0, 0.5);
-    width: 100%;
-    &:nth-of-type(1) {
-      grid-column: 1;
-    }
-    &:nth-of-type(2) {
-      grid-column: 2;
-    }
-
-    h2 {
-      font-size: 4rem;
-      margin-bottom: 2.25rem;
-      display: inline-block;
-      //font-family: $infowall-default-font-bold;
-      &.credits {
-        margin-left: 0;
-      }
-      &.feedback {
-        margin-bottom: 3.5rem;
-      }
-    }
-    h4 {
-      font-size: 3rem;
-    }
-    .infowall_feedback_button_bar {
-      position: absolute;
-      bottom: 4rem;
-      left: 4rem;
-      button {
-        position: relative;
-        display: inline-block;
-        //background-color: $color-exxeta-white;
-        border-radius: 52px;
-        border: 1px solid #537DA4;
-        height: auto;
-        line-height: 40px;
-        //font-family: $infowall-default-font;
-        font-weight: 500;
-        font-size: 2.5rem;
-        padding: 0.25rem 2rem;
-        vertical-align: middle;
-        white-space: nowrap;
-        &.submit {
-          //background-color: $color-exxeta-amazonit3;
-          //color: $color-exxeta-white;
-        }
-        &:nth-of-type(2) {
-          margin-left: 2rem;
-        }
-      }
-    }
-  }
+.status-report-box {
+  border: 1px dotted black;
+  margin-right: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
 }
-

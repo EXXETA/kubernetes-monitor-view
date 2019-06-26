@@ -25,4 +25,4 @@ export * from './model/Container';
 export * from './model/ObjectClassState';
 export * from './model/StatusReport';
 export * from './model/UnknownNamespace';
-
+export * from './model/Domain';

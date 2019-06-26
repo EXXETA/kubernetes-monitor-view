@@ -1,0 +1,33 @@
+.domain-container {
+  height: auto;
+  min-height: 12rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  cursor: pointer;
+  margin-top: 3rem;
+}
+
+.background-warning {
+  background-color: #f1c40f
+}
+
+.background-danger {
+  background-color: #c0392b;
+}
+
+.background-good {
+  background-color: #2980b9
+}
+
+.domain-title {
+  font-size: 4rem;
+  color: #000000;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+}
+
+.last_update {
+  color: #000000;
+}

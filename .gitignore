@@ -40,4 +40,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-kubernetes-monitor-view.tgz
+kubernetes-monitor-view*.tgz

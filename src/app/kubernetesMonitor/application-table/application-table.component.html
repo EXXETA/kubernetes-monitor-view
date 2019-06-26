@@ -1,83 +1,93 @@
 <div class="borderDiv">
+  <h1 class="cluster-env-title">{{domain.name}}</h1>
   <table class="table table-small" *ngIf="status">
     <thead>
-      <th class="spacer" style="width:150px;"></th>
-      <th class="spacer" style="width:20px;"></th>
+    <tr>
+      <th class="spacer first_column"></th>
+      <th class="spacer second_column"></th>
       <ng-template ngFor let-region [ngForOf]="regions">
         <th class="spacer"></th>
         <ng-template ngFor let-stage [ngForOf]="region.stages" let-i="index">
           <th class="headerspacer"></th>
         </ng-template>
       </ng-template>
-      <tr>
-        <th scope="col" rowspan="2" colspan="2" (click)="debug()">&nbsp;</th>
-        <ng-template ngFor let-region [ngForOf]="regions">
-          <th class="spacer"></th>
-          <th  *ngIf="!hideRegions" scope="col" [attr.colspan]="region.stages.length" class="firstStage region">{{region.name}}</th>
-          <th  *ngIf="hideRegions" scope="col" [attr.colspan]="region.stages.length" class="firstStage region"></th>
+    </tr>
+    <tr>
+      <th rowspan="2" colspan="2" (click)="debug()">&nbsp;</th>
+      <ng-template ngFor let-region [ngForOf]="regions">
+        <th class="spacer"></th>
+        <th *ngIf="!hideRegions" scope="col" [attr.colspan]="region.stages.length"
+            class="firstStage region">{{region.name}}</th>
+        <th *ngIf="hideRegions" scope="col" [attr.colspan]="region.stages.length" class="firstStage region"></th>
+      </ng-template>
+    </tr>
+    <tr>
+      <ng-template ngFor let-region [ngForOf]="regions">
+        <th class="spacer"></th>
+        <ng-template ngFor let-stage [ngForOf]="region.stages" let-i="index">
+          <th scope="col" [ngClass]="{'firstStage':(i==0)}" class="stage">{{stage}}</th>
         </ng-template>
-      </tr>
-
-      <tr>
-        <ng-template ngFor let-region [ngForOf]="regions">
-          <th class="spacer"></th>
-          <ng-template ngFor let-stage [ngForOf]="region.stages" let-i="index">
-            <th scope="col" [ngClass]="{'firstStage':(i==0)}" class="stage">{{stage}}</th>
-          </ng-template>
-        </ng-template>
-      </tr>
+      </ng-template>
+    </tr>
     </thead>
+    <!-- TODO FIX: do not generate multiple tbodies! -->
     <tbody *ngFor="let app of relevantApplications(); trackBy: trackByFn">
-      <tr>
-        <th scope="row" (click)="toggleDetails(app)" class="appName">{{app.name}}</th>
-        <th scope="row" (click)="toggleDetails(app)" class="chevron">
-          <span appOcticon="{{showDetails(app)?'chevron-down':'chevron-right'}}" color="#FFFFFF"></span>&nbsp;
-        </th>
+    <tr>
+      <td (click)="toggleDetails(app)" class="appName">{{app.name}}</td>
+      <td (click)="toggleDetails(app)" class="chevron">
+        <span appOcticon="{{showDetails(app)?'chevron-down':'chevron-right'}}" color="#FFFFFF"></span>&nbsp;
+      </td>
+      <ng-template ngFor let-region [ngForOf]="regions">
+        <td class="spacer"></td>
+        <ng-template ngFor let-stage [ngForOf]="region.stages" let-i="index">
+          <td [ngClass]="{'firstStage':(i==0)}" class="instance">
+              <span [hidden]="hasNoData(app.name,region.name,stage) || isOk(app.name,region.name,stage)">
+                <span class="dot red" (click)="selectApplicationInstance(app.name,region.name,stage)"
+                      data-toggle="modal"
+                      data-target="#applicationState" appOcticon="flame" color="#FFFFFF" data-backdrop="false"></span>
+              </span>
+            <span [hidden]="hasNoData(app.name,region.name,stage) || !isOk(app.name,region.name,stage)">
+                <span class="dot blue" (click)="selectApplicationInstance(app.name,region.name,stage)"
+                      data-toggle="modal"
+                      data-target="#applicationState" appOcticon="check" color="#FFFFFF" data-backdrop="false"></span>
+              </span>
+          </td>
+        </ng-template>
+      </ng-template>
+    </tr>
+    <ng-template ngFor let-containerName [ngForOf]="getContainers(app)">
+      <tr *ngIf="showDetails(app)" class="containerRow">
+        <td class="containerName">{{containerName}}</td>
+        <td>&nbsp;</td>
         <ng-template ngFor let-region [ngForOf]="regions">
           <td class="spacer"></td>
           <ng-template ngFor let-stage [ngForOf]="region.stages" let-i="index">
-            <td [ngClass]="{'firstStage':(i==0)}" class="instance">
-              <span [hidden]="hasNoData(app.name,region.name,stage) || isOk(app.name,region.name,stage)">
-                <span class="dot red" (click)="selectApplicationInstance(app.name,region.name,stage)" data-toggle="modal"
-                  data-target="#applicationState" appOcticon="flame" color="#FFFFFF" data-backdrop="false"></span>
-              </span>
-              <span [hidden]="hasNoData(app.name,region.name,stage) || !isOk(app.name,region.name,stage)">
-                <span class="dot blue" (click)="selectApplicationInstance(app.name,region.name,stage)" data-toggle="modal"
-                  data-target="#applicationState" appOcticon="check" color="#FFFFFF" data-backdrop="false"></span>
-              </span>
+            <!--<td [class]="getContainerClass(app, containerName, region.name, stage)"></td>-->
+            <td class="table-container">
+                <span class="version red" (click)="selectApplicationInstance(app.name,region.name,stage)"
+                      data-toggle="modal"
+                      data-target="#applicationState"
+                      [hidden]="getContainerClass(app, containerName, region.name, stage)!=='error'"
+                      data-backdrop="false">
+                  {{getContainerVersion(app, containerName, region.name, stage)}}
+                </span>
+              <span class="version yellow" (click)="selectApplicationInstance(app.name,region.name,stage)"
+                    data-toggle="modal" data-target="#applicationState"
+                    [hidden]="getContainerClass(app, containerName, region.name, stage)!=='warn'"
+                    data-backdrop="false">
+                  {{getContainerVersion(app, containerName, region.name, stage)}}
+                </span>
+              <span class="version lightblue" (click)="selectApplicationInstance(app.name,region.name,stage)"
+                    data-toggle="modal" data-target="#applicationState"
+                    [hidden]="getContainerClass(app, containerName, region.name, stage)!=='ok'"
+                    data-backdrop="false">
+                  {{getContainerVersion(app, containerName, region.name, stage)}}
+                </span>
             </td>
           </ng-template>
         </ng-template>
       </tr>
-      <ng-template ngFor let-containerName [ngForOf]="getContainers(app)">
-        <tr *ngIf="showDetails(app)" class="containerRow">
-          <td class="containerName">{{containerName}}</td>
-          <td>&nbsp;</td>
-          <ng-template ngFor let-region [ngForOf]="regions">
-            <td class="spacer"></td>
-            <ng-template ngFor let-stage [ngForOf]="region.stages" let-i="index">
-              <!--<td [class]="getContainerClass(app, containerName, region.name, stage)"></td>-->
-              <td class="container">
-                <span class="version red" (click)="selectApplicationInstance(app.name,region.name,stage)" data-toggle="modal"
-                  data-target="#applicationState" [hidden]="getContainerClass(app, containerName, region.name, stage)!=='error'"
-                  data-backdrop="false">
-                  {{getContainerVersion(app, containerName, region.name, stage)}}
-                </span>
-                <span class="version yellow" (click)="selectApplicationInstance(app.name,region.name,stage)"
-                  data-toggle="modal" data-target="#applicationState" [hidden]="getContainerClass(app, containerName, region.name, stage)!=='warn'"
-                  data-backdrop="false">
-                  {{getContainerVersion(app, containerName, region.name, stage)}}
-                </span>
-                <span class="version lightblue" (click)="selectApplicationInstance(app.name,region.name,stage)"
-                  data-toggle="modal" data-target="#applicationState" [hidden]="getContainerClass(app, containerName, region.name, stage)!=='ok'"
-                  data-backdrop="false">
-                  {{getContainerVersion(app, containerName, region.name, stage)}}
-                </span>
-              </td>
-            </ng-template>
-          </ng-template>
-        </tr>
-      </ng-template>
+    </ng-template>
     </tbody>
   </table>
 </div>

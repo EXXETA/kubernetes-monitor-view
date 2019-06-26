@@ -17,6 +17,7 @@
  */
 import { Component } from '@angular/core';
 import { KubernetesMonitorMockService } from './kubernetesMonitorMock.service';
+import {DomainConfig} from './kubernetesMonitor/model/DomainConfig';
 
 @Component({
   selector: 'app-root',
@@ -24,5 +25,30 @@ import { KubernetesMonitorMockService } from './kubernetesMonitorMock.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  service = new KubernetesMonitorMockService();
+  // service = new KubernetesMonitorMockService();
+
+  domainConfig: DomainConfig = {
+    domains: [
+      {
+        name: 'Tapas',
+        url: 'http://localhost:8080/kube/rest/Tapas',
+        stages: [
+          { 'name': 'Any', 'stages': ['DEV'] },
+          { 'name': 'ECE', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] },
+          { 'name': 'AMAP', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] },
+          { 'name': 'CHINA', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] }
+        ],
+        timestamp: 1545137175017
+      }, {
+        name: 'Vedoc',
+        url: 'http://localhost:8080/kube/rest/Vedoc',
+        stages: [
+          { 'name': 'ECE', 'stages': ['DEV', 'INT', 'PROD'] }
+        ],
+        timestamp: 1545137175017
+      }
+    ],
+    statusInterval: 60000
+  };
 }
+
