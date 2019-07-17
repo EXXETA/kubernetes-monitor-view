@@ -16,166 +16,174 @@
  * limitations under the License.
  */
 
- // component css goes here
+// component css goes here
 table {
-    background-color: transparent;
-    border-spacing: 20px 0;
-    table-layout: fixed;
-}
+  background-color: transparent;
+  border-spacing: 20px 0;
+  table-layout: fixed;
 
-th {
+  th {
     vertical-align: middle;
     text-align: center;
-}
+  }
 
-td.ok {
-    background-color: rgba($color: #4CAF50, $alpha: 1)
-}
-
-td.error {
-    background-color: rgba($color: #da004d, $alpha: 1)
+  td {
+    &.ok {
+      background-color: rgba($color: #4CAF50, $alpha: 1)
+    }
+    &.error {
+      background-color: rgba($color: #da004d, $alpha: 1)
+    }
+    &.table-container {
+      color: #FFFFFF;
+      text-align: center;
+    }
+  }
+  th {
+    &.stage {
+      font-size: 0.9em;
+    }
+  }
 }
 
 .table th,
 .table td {
-    padding: 2px;
-    background-color: rgba($color: #212121, $alpha: 1);
-    border-color: #616161;
-    color: #FFFFFF;
-    width: 150px;
-    overflow: hidden;
-    white-space: nowrap;
+  padding: 2px;
+  background-color: rgba($color: #212121, $alpha: 1);
+  border-color: #616161;
+  color: #FFFFFF;
+  width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .table thead th {
-    border-color: #616161;
+  border-color: #616161;
 }
 
 tr {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .containerRow {
-    font-size: 0.9em;
-    white-space: nowrap;
-    overflow: hidden;
+  font-size: 0.9em;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .table td.spacer, .table th.spacer {
-    width: 5px;
-    background-color: transparent;
-    border-top: 0px;
-    border-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
+  width: 5px;
+  background-color: transparent;
+  border-top: 0;
+  border-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+
+  &.first_column {
+    width: 15rem;
+  }
+
+  &.second_column {
+    width: 1.5rem;
+  }
 }
 
 .table .headerspacer {
-    background-color: transparent;
-    border-top: 0px;
-    border-bottom: 0px;
+  background-color: transparent;
+  border-top: 0;
+  border-bottom: 0;
+  width: 6rem;
 }
 
-@media (min-width: 1500px){ .table .headerspacer {
-    width: 100px;
-}}
+@media (max-width: 1199px) {
+  .table .headerspacer {
+    width: 2rem;
+  }
+}
 
-@media (min-width: 1200px) and (max-width: 1499px){ .table .headerspacer {
-    width: 80px;
-}}
-@media (max-width: 1199px){ .table .headerspacer {
-    width: 60px;
-}}
-
-.table tbody+tbody {
-    border: 0px;
+.table tbody + tbody {
+  border: 0;
 }
 
 .appName {
-    text-align: left;
-    padding-left: 10px;
+  text-align: left;
+  padding-left: 10px;
 }
+
 .containerName {
-    padding-left: 20px;
+  padding-left: 20px;
 }
 
 .borderDiv {
-    padding: 15px;
+  padding: 1rem;
 }
 
 .chevron {
-    padding-right: 15px;
-    text-align: left;
+  padding-right: 1rem;
+  text-align: left;
 }
+
 .chevron, .appName {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .instance {
-    text-align: center;
+  text-align: center;
 }
 
 .dot {
-    height: 23px;
-    width: 90%;
-    margin: 2px;
-    background-color: #bbb;
-    border-radius: 25px;
-    border: 0px solid #616161;
-    display: inline-block;
-    cursor: pointer;
-    padding-left: 3px;
-    padding-right: 3px;
-    text-align: center;
-}
-
-.dot.blue {
+  height: 23px;
+  width: 90%;
+  margin: 2px;
+  background-color: #bbb;
+  border-radius: 25px;
+  border: none;
+  display: inline-block;
+  cursor: pointer;
+  padding-left: 3px;
+  padding-right: 3px;
+  text-align: center;
+  &.blue {
     background-color: #2196F3;
-}
-
-.dot.lightblue {
+  }
+  &.lightblue {
     background-color: #0D47A1;
-}
-
-.dot.red {
+  }
+  &.red {
     background-color: #da004d;
-}
-
-.dot.yellow {
+  }
+  &.yellow {
     background-color: #FF9800;
-}
-
-.dot.gray {
-    background-color: #E0E0E0;
+  }
 }
 
 .version {
-    cursor: pointer;
-}
-.version.lightblue {
+  cursor: pointer;
+  &.lightblue {
     color: #64B5F6;
-}
-
-.version.blue {
+  }
+  &.blue {
     color: #537DA4;
-}
-
-.version.red {
+  }
+  &.red {
     color: #da004d;
-}
-
-.version.yellow {
+  }
+  &.yellow {
     color: #FF9800;
+  }
 }
 
-.version.gray {
-    color: #E0E0E0;
+.cluster-env-title {
+  color: #FFFFFF;
+  font-size: 3rem;
+  font-weight: bold;
+  text-align: left;
+  text-transform: uppercase;
+  vertical-align: middle;
+  position: relative;
+  text-shadow: 0 0 3px black;
 }
 
-td.container {
-    color: #FFFFFF;
-    text-align: center;
-}
-th.stage {
- font-size: 0.9em;
+.content_col {
+  margin-top: 0 !important;
 }

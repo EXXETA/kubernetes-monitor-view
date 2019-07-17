@@ -18,26 +18,27 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KubernetesMonitorComponent } from './kubernetesMonitor.component';
-import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { KubernetesMonitorService } from './kubernetesMonitor.service';
 import { ApplicationStateComponent } from './applicationState.component/applicationState.component';
 import { ApplicationTableComponent } from './application-table/application-table.component';
+import { DomainComponent } from './domain/domain.component';
 import { OcticonDirective } from './octicons';
 import { NGXLogger } from 'ngx-logger';
 import { ConsoleLoggerService } from './ConsoleLoggerService';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
     CommonModule,
-    HttpModule,
+    HttpClientModule,
     FormsModule
   ],
   declarations: [
     KubernetesMonitorComponent,
     ApplicationStateComponent,
     ApplicationTableComponent,
-    OcticonDirective
+    OcticonDirective,
+    DomainComponent
   ],
   providers: [
     {
@@ -50,9 +51,10 @@ import { ConsoleLoggerService } from './ConsoleLoggerService';
   ]
 })
 export class KubernetesMonitorModule {
+
   static forRoot (): ModuleWithProviders {
   return {
     ngModule: KubernetesMonitorModule
   };
-}
+  }
 }

@@ -15,18 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import {Component, OnInit, ViewChild, Input} from '@angular/core';
 
-import { KubernetesMonitorService } from './kubernetesMonitor.service';
-import { NGXLogger } from 'ngx-logger';
-import { StatusReport } from './model/StatusReport';
+import {KubernetesMonitorService} from './kubernetesMonitor.service';
+import {NGXLogger} from 'ngx-logger';
+import {StatusReport} from './model/StatusReport';
 import * as moment from 'moment';
-import { ApplicationInstanceState } from './model/ApplicationInstanceState';
-import { ApplicationTableComponent } from './application-table/application-table.component';
+import {ApplicationInstanceState} from './model/ApplicationInstanceState';
+import {ApplicationTableComponent} from './application-table/application-table.component';
+import {Domain} from './model/Domain';
+import {StatusServiceService} from './status-service.service';
+import {environment} from '../../environments/environment';
+import {DomainConfig} from './model/DomainConfig';
 
 
 @Component({
-  selector: 'kubernetesMonitor',
+  selector: 'app-kubernetes-monitor',
   templateUrl: './kubernetesMonitor.component.html',
   styleUrls: ['./kubernetesMonitor.component.scss']
 })
@@ -40,39 +44,35 @@ export class KubernetesMonitorComponent implements OnInit {
   @ViewChild('table') table: ApplicationTableComponent;
   @Input() kubeMonitorService: KubernetesMonitorService;
   @Input() hideRegions;
+  @Input() domainConfig: DomainConfig;
+  // inject callable to e.g. for loading spinner integration
+  @Input() loadStartCallback: any;
+  @Input() loadFinishCallback: any;
 
-  constructor(private logger: NGXLogger) {
+  tableView = false;
 
+  constructor(private logger: NGXLogger,
+              public kubernetesMonitorService: KubernetesMonitorService,
+              private statusService: StatusServiceService) {
   }
 
   ngOnInit() {
+    this.statusService.setStatusURL(environment.basePath);
+
     this.logger.log('from KubernetesMonitorComponent');
-    this.logger.log(this.kubeMonitorService);
+    this.logger.log(this.kubernetesMonitorService);
     this.loadStates();
   }
+
   public loadStates(): void {
     this.logger.log('Loading report');
     if (this.timer != null) {
-      this.logger.log(this.timer);
       clearTimeout(this.timer);
       this.timer = null;
     }
     if (this.table != null) {
       this.table.reloadStages();
     }
-
-    this.kubeMonitorService.getCurrentStatus().subscribe(
-      result => {
-        const lastTimestamp = this.statusReport == null ? 0 : this.statusReport.timestamp.getTime();
-        this.logger.log(lastTimestamp);
-        this.newReport(result);
-        this.oldTimestamp = (lastTimestamp === this.statusReport.timestamp.getTime());
-      },
-      () => {
-        this.setTimerForNextLoad();
-        this.oldTimestamp = true;
-      }
-    );
   }
 
   private newReport(report: StatusReport): void {
@@ -98,30 +98,53 @@ export class KubernetesMonitorComponent implements OnInit {
 
   public selectedApplication(): ApplicationInstanceState {
     if (this.statusReport === undefined
-      || this.kubeMonitorService.selectedApplicationRegionName === null
-      || this.kubeMonitorService.selectedApplicationRegionName === undefined) {
+      || this.kubernetesMonitorService.selectedApplicationRegionName === null
+      || this.kubernetesMonitorService.selectedApplicationRegionName === undefined) {
       return null;
     }
 
     for (const app of this.statusReport.applications) {
-      if (app.name === this.kubeMonitorService.selectedApplicationName) {
+      if (app.name === this.kubernetesMonitorService.selectedApplicationName) {
         for (const inst of app.instances) {
-          if (inst.region.toLowerCase() === this.kubeMonitorService.selectedApplicationRegionName.toLowerCase()
-            && inst.stage.toLowerCase() === this.kubeMonitorService.selectedApplicationStageName.toLowerCase()) {
+          if (inst.region.toLowerCase() === this.kubernetesMonitorService.selectedApplicationRegionName.toLowerCase()
+            && inst.stage.toLowerCase() === this.kubernetesMonitorService.selectedApplicationStageName.toLowerCase()) {
             return inst;
           }
         }
       }
 
     }
-    this.logger.warn('selectedAppNotFound '
-      + this.kubeMonitorService.selectedApplicationRegionName + ' '
-      + this.kubeMonitorService.selectedApplicationStageName);
     return null;
   }
-  public isOldTimestamp(timestamp: Date): boolean {
-    return (timestamp.getTime() + this.interval * 10 < moment.now());
+
+  getSelectedDomain() {
+    return this.kubernetesMonitorService.getSelectedDomain();
+  }
+
+  selectDomain(domain: Domain) {
+    if (typeof this.loadStartCallback === 'function') {
+      this.loadStartCallback();
+    }
+
+    this.kubernetesMonitorService.selectDomain(domain);
+    this.kubernetesMonitorService.getCurrentStatus(domain).subscribe(
+      result => {
+        const lastTimestamp = this.statusReport == null ? 0 : this.statusReport.timestamp.getTime();
+        this.newReport(result);
+        this.oldTimestamp = (lastTimestamp === this.statusReport.timestamp.getTime());
+        this.tableView = true;
+        if (typeof this.loadFinishCallback === 'function') {
+          this.loadFinishCallback();
+        }
+      },
+      () => {
+        this.setTimerForNextLoad();
+        this.oldTimestamp = true;
+        if (typeof this.loadFinishCallback === 'function') {
+          this.loadFinishCallback();
+        }
+      }
+    );
   }
 
 }
-

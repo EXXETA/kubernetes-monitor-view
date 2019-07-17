@@ -1,44 +1,45 @@
-<div class="modal fade" id="applicationState" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h5 class="modal-title" id="exampleModalLabel" (click)="debug()">{{getAppName()}} - {{getRegion()}} -
-                    {{getStage()}}</h5>
+<div class="modal fade kubernetes-monitor-dialog" id="applicationState" tabindex="-1" role="dialog" *ngIf="application">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" (click)="debug()">{{getAppName()}} - {{getRegion()}} -
+          {{getStage()}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+          aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body" *ngIf="application">
+        <div class="metadata">
+          Namespace
+          <ul>
+            <li>{{application.namespace}}</li>
+          </ul>
+        </div>
+        <div class="row">
+          <div class="col-4" *ngFor="let objectState of application.objectStates; trackBy: getTrackBy">
+            <div class="card-body">
+              <h5 class="card-title">{{objectState.objectClass}}s</h5>
+              <div *ngIf="objectState.expectedObjects && objectState.expectedObjects.length>0">
+                Expected {{objectState.actualNumber}} / {{objectState.expectedNumber}} <span
+                appOcticon="flame" color="#da004d"
+                [hidden]="objectState.actualNumber==objectState.expectedNumber"></span>
+                <ul>
+                  <li class="expected col-12" *ngFor="let expected of objectState.expectedObjects">{{expected}}</li>
+                </ul>
+              </div>
+              <div *ngIf="objectState.unexpectedObjects && objectState.unexpectedObjects.length>0">
+                Unexpected
+                <ul>
+                  <li class="unexpected col-12"
+                      *ngFor="let unexpected of objectState.unexpectedObjects">{{unexpected}}</li>
+                </ul>
+              </div>
             </div>
-            <div class="modal-body" *ngIf="application">
-
-                <div class="row">
-                    <div class="col-xs-3 metadata">
-                        Namespace
-                            <ul><li>{{application.namespace}}</li></ul>
-                    </div>
-                    <div class="col-xs-9">
-
-                        <div class="col-xs-3" *ngFor="let objectState of application.objectStates; trackBy: getTrackBy">
-                            <div class="card-body">
-                                <h5 class="card-title">{{objectState.objectClass}}s</h5>
-                                <div *ngIf="objectState.expectedObjects && objectState.expectedObjects.length>0">
-                                    Expected {{objectState.actualNumber}} / {{objectState.expectedNumber}} <span
-                                        appOcticon="flame" color="#da004d" [hidden]="objectState.actualNumber==objectState.expectedNumber"></span>
-                                    <ul>
-                                        <li class="expected col-12" *ngFor="let expected of objectState.expectedObjects">{{expected}}</li>
-                                    </ul>
-                                </div>
-                                <div *ngIf="objectState.unexpectedObjects && objectState.unexpectedObjects.length>0">
-                                    Unexpected
-                                    <ul>
-                                        <li class="unexpected col-12" *ngFor="let unexpected of objectState.unexpectedObjects">{{unexpected}}</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

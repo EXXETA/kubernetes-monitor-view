@@ -21,9 +21,10 @@ import { KubernetesMonitorService } from './kubernetesMonitor/kubernetesMonitor.
 import { UnknownNamespace } from './kubernetesMonitor/model/UnknownNamespace';
 import { ApplicationState } from './kubernetesMonitor/model/ApplicationState';
 import { ApplicationInstanceState } from './kubernetesMonitor/model/ApplicationInstanceState';
-import { Observable, of } from 'rxjs';
 import { ObjectClassState } from './kubernetesMonitor/model/ObjectClassState';
 import { Container } from './kubernetesMonitor/model/Container';
+import {of} from 'rxjs/internal/observable/of';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Injectable()
 export class KubernetesMonitorMockService extends KubernetesMonitorService {

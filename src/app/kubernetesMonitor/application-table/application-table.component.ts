@@ -15,231 +15,238 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Input, OnInit } from '@angular/core';
-import { NGXLogger } from 'ngx-logger';
-import { StatusReport } from '../model/StatusReport';
-import { ApplicationState } from '../model/ApplicationState';
-import { ApplicationInstanceState } from '../model/ApplicationInstanceState';
-import { KubernetesMonitorService } from '../kubernetesMonitor.service';
-import { Container } from '../model/Container';
+import {Component, Input, OnInit} from '@angular/core';
+import {NGXLogger} from 'ngx-logger';
+import {StatusReport} from '../model/StatusReport';
+import {ApplicationState} from '../model/ApplicationState';
+import {ApplicationInstanceState} from '../model/ApplicationInstanceState';
+import {KubernetesMonitorService} from '../kubernetesMonitor.service';
+import {Container} from '../model/Container';
+import {Domain} from '../model/Domain';
 
 @Component({
-    selector: 'application-table',
-    templateUrl: 'application-table.component.html',
-    styleUrls: ['application-table.component.scss']
+  selector: 'application-table',
+  templateUrl: 'application-table.component.html',
+  styleUrls: ['application-table.component.scss']
 })
 export class ApplicationTableComponent implements OnInit {
-    @Input()
-    status: StatusReport;
+  @Input()
+  status: StatusReport;
 
-    @Input() kubeMonitorService: KubernetesMonitorService;
-    @Input() hideRegions = false;
+  @Input() kubeMonitorService: KubernetesMonitorService;
+  @Input() hideRegions = false;
+  @Input() domain: Domain;
 
-    regions;
+  regions;
 
-    withDetails: String[] = [];
+  withDetails: String[] = [];
 
-    constructor(private logger: NGXLogger) {
+  constructor(private logger: NGXLogger) {
 
+  }
+
+  ngOnInit() {
+    this.regions = this.kubeMonitorService.getStages();
+  }
+
+  public debug(): void {
+    this.logger.info(this.status);
+  }
+
+  public reloadStages(): void {
+    this.regions = this.kubeMonitorService.getStages();
+  }
+
+  public getClass(appName: string, region, stage) {
+    let application: ApplicationState = null;
+    for (const app of this.status.applications) {
+      if (app.name === appName) {
+        application = app;
+      }
     }
-    ngOnInit() {
-        this.regions = this.kubeMonitorService.getStages();
+    if (application === null) {
+      this.logger.warn('app not found');
+      return 'tl_unknown';
     }
-
-    public debug(): void {
-        this.logger.info(this.status);
+    let instance: ApplicationInstanceState = null;
+    for (const inst of application.instances) {
+      if (inst.region.toLowerCase() === region.toLowerCase() && inst.stage.toLowerCase() === stage.toLowerCase()) {
+        instance = inst;
+      }
     }
-
-    public reloadStages(): void {
-        this.regions = this.kubeMonitorService.getStages();
+    if (instance === null) {
+      return 'tl_unknown';
     }
-
-    public getClass(appName: string, region, stage) {
-        let application: ApplicationState = null;
-        for (const app of this.status.applications) {
-            if (app.name === appName) {
-                application = app;
-            }
-        }
-        if (application === null) {
-            this.logger.warn('app not found');
-            return 'tl_unknown';
-        }
-        let instance: ApplicationInstanceState = null;
-        for (const inst of application.instances) {
-            if (inst.region.toLowerCase() === region.toLowerCase() && inst.stage.toLowerCase() === stage.toLowerCase()) {
-                instance = inst;
-            }
-        }
-        if (instance === null) {
-            return 'tl_unknown';
-        }
-        if (this.hasErrors(instance)) {
-            return 'tl_error';
-        }
-        return 'tl_ok';
+    if (this.hasErrors(instance)) {
+      return 'tl_error';
     }
+    return 'tl_ok';
+  }
 
-    public isOk(appName: string, region, stage): boolean {
-        let application: ApplicationState = null;
-        for (const app of this.status.applications) {
-            if (app.name === appName) {
-                application = app;
-            }
-        }
-        if (application === null) {
-            this.logger.warn('app not found');
-            return null;
-        }
-        let instance: ApplicationInstanceState = null;
-        for (const inst of application.instances) {
-            if (inst.region.toLowerCase() === region.toLowerCase() && inst.stage.toLowerCase() === stage.toLowerCase()) {
-                instance = inst;
-            }
-        }
-        if (instance === null) {
-            return null;
-        }
-        if (this.hasErrors(instance)) {
-            return false;
-        }
+  public isOk(appName: string, region, stage): boolean {
+    let application: ApplicationState = null;
+    for (const app of this.status.applications) {
+      if (app.name === appName) {
+        application = app;
+      }
+    }
+    if (application === null) {
+      this.logger.warn('app not found');
+      return null;
+    }
+    let instance: ApplicationInstanceState = null;
+    for (const inst of application.instances) {
+      if (inst.region.toLowerCase() === region.toLowerCase() && inst.stage.toLowerCase() === stage.toLowerCase()) {
+        instance = inst;
+      }
+    }
+    if (instance === null) {
+      return null;
+    }
+    if (this.hasErrors(instance)) {
+      return false;
+    }
+    return true;
+  }
+
+  private hasErrors(instance: ApplicationInstanceState): boolean {
+    for (const state of instance.objectStates) {
+      if (state.actualNumber !== state.expectedNumber) {
         return true;
+      }
+      if (state.unexpectedObjects && state.unexpectedObjects.length > 0) {
+        return true;
+      }
     }
+    return false;
+  }
 
-    private hasErrors(instance: ApplicationInstanceState): boolean {
-        for (const state of instance.objectStates) {
-            if (state.actualNumber !== state.expectedNumber) {
-                return true;
-            }
-            if (state.unexpectedObjects && state.unexpectedObjects.length > 0) {
-                return true;
-            }
+
+  public trackByFn(i, item) {
+    return item.name;
+  }
+
+  public selectApplicationInstance(appName: string, region: string, stage: string) {
+    this.kubeMonitorService.selectApplicationInstance(appName, region, stage);
+  }
+
+  public toggleDetails(app: ApplicationState) {
+    const index = this.withDetails.indexOf(app.name, 0);
+    if (index >= 0) {
+      this.withDetails.splice(index, 1);
+    } else {
+      this.withDetails.push(app.name);
+    }
+  }
+
+  public showDetails(app: ApplicationState): boolean {
+    const result = this.withDetails.indexOf(app.name, 0) >= 0;
+    return result;
+  }
+
+  public getContainers(app: ApplicationState): String[] {
+    const result: String[] = [];
+    if (!app) {
+      return result;
+    }
+    for (const i of app.instances) {
+      for (const c of i.containers) {
+        if (result.indexOf(c.name) === -1) {
+          result.push(c.name);
         }
-        return false;
+      }
     }
+    return result;
+  }
 
+  getContainerVersion(app: ApplicationState, containerName: String, region: String, stage: String): String {
+    for (const i of app.instances) {
+      if (i.region.toUpperCase() === region.toUpperCase() && i.stage.toUpperCase() === stage.toUpperCase()) {
+        for (const c of i.containers) {
 
-    public trackByFn(i, item) { return item.name; }
-
-    public selectApplicationInstance(appName: string, region: string, stage: string) {
-        this.kubeMonitorService.selectApplicationInstance(appName, region, stage);
-
-    }
-
-    public toggleDetails(app: ApplicationState) {
-        const index = this.withDetails.indexOf(app.name, 0);
-        if (index >= 0) {
-            this.withDetails.splice(index, 1);
-        } else {
-            this.withDetails.push(app.name);
+          if (c.name === containerName) {
+            return c.version;
+          }
         }
+      }
     }
+    return '';
 
-    public showDetails(app: ApplicationState): boolean {
-        const result = this.withDetails.indexOf(app.name, 0) >= 0;
-        return result;
-    }
+  }
 
-    public getContainers(app: ApplicationState): String[] {
-        const result: String[] = [];
-
-        for (const i of app.instances) {
-            for (const c of i.containers) {
-                if (result.indexOf(c.name) === -1) {
-                    result.push(c.name);
-                }
+  getContainerClass(app: ApplicationState, containerName: String, region: String, stage: String): String {
+    for (const i of app.instances) {
+      if (i.region.toUpperCase() === region.toUpperCase() && i.stage.toLocaleUpperCase() === stage.toUpperCase()) {
+        for (const c of i.containers) {
+          if (c.name === containerName) {
+            if (c.ready === undefined) {
+              return '';
+            } else {
+              if (!c.ready) {
+                return 'error';
+              } else if (c.version.indexOf('latest') >= 0 || c.version.indexOf('snapshot') >= 0) {
+                return 'warn';
+              } else {
+                return 'ok';
+              }
             }
+          }
         }
+      }
+    }
+    return '';
 
-        return result;
+  }
+
+  hasNoData(appName: string, region: string, stage: string): boolean {
+    let application: ApplicationState = null;
+    for (const app of this.status.applications) {
+      if (app.name === appName) {
+        application = app;
+      }
+    }
+    if (application === null) {
+      this.logger.warn('app not found');
+      return true;
+    }
+    let instance: ApplicationInstanceState = null;
+    for (const inst of application.instances) {
+      if (inst.region.toLowerCase() === region.toLowerCase() && inst.stage.toLowerCase() === stage.toLowerCase()) {
+        instance = inst;
+      }
+    }
+    return instance === null;
+  }
+
+  relevantApplications(): ApplicationState[] {
+
+    const result: ApplicationState[] = [];
+
+    for (const app of this.status.applications) {
+      let relevant = false;
+      for (const instance of app.instances) {
+        if (this.envExists(instance.region, instance.stage)) {
+          relevant = true;
+        }
+      }
+      if (relevant) {
+        result.push(app);
+      }
     }
 
-    getContainerVersion(app: ApplicationState, conatinerName: String, region: String, stage: String): String {
-        for (const i of app.instances) {
-            if (i.region.toUpperCase() === region.toUpperCase() && i.stage.toUpperCase() === stage.toUpperCase()) {
-                for (const c of i.containers) {
+    return result;
+  }
 
-                    if (c.name === conatinerName) {
-                        return c.version;
-                    }
-                }
-            }
-        }
-        return '';
-
-    }
-    getContainerClass(app: ApplicationState, conatinerName: String, region: String, stage: String): String {
-        for (const i of app.instances) {
-            if (i.region.toUpperCase() === region.toUpperCase() && i.stage.toLocaleUpperCase() === stage.toUpperCase()) {
-                for (const c of i.containers) {
-                    if (c.name === conatinerName) {
-                        if (c.ready === undefined) {
-                            return '';
-                        } else {
-                            if (!c.ready) {
-                                return 'error';
-                            } else if (c.version.indexOf('latest') >= 0 || c.version.indexOf('snapshot') >= 0) {
-                                return 'warn';
-                            } else {
-                                return 'ok';
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return '';
-
-    }
-    hasNoData(appName: string, region: string, stage: string): boolean {
-        let application: ApplicationState = null;
-        for (const app of this.status.applications) {
-            if (app.name === appName) {
-                application = app;
-            }
-        }
-        if (application === null) {
-            this.logger.warn('app not found');
+  envExists(regionName: string, stageName: string): boolean {
+    for (const region of this.regions) {
+      if (region.name.toUpperCase() === regionName.toUpperCase()) {
+        for (const stage of region.stages) {
+          if (stage.toUpperCase() === stageName.toUpperCase()) {
             return true;
+          }
         }
-        let instance: ApplicationInstanceState = null;
-        for (const inst of application.instances) {
-            if (inst.region.toLowerCase() === region.toLowerCase() && inst.stage.toLowerCase() === stage.toLowerCase()) {
-                instance = inst;
-            }
-        }
-        return instance === null;
+      }
     }
-
-    relevantApplications(): ApplicationState[] {
-
-        const result: ApplicationState[] = [];
-
-        for (const app of this.status.applications) {
-            let relevant = false;
-            for (const instance of app.instances) {
-                if (this.envExists(instance.region, instance.stage)) {
-                    relevant = true;
-                }
-            }
-            if (relevant) {
-                result.push(app);
-            }
-        }
-
-        return result;
-    }
-
-    envExists(regionName: string, stageName: string): boolean {
-        for (const region of this.regions) {
-            if (region.name.toUpperCase() === regionName.toUpperCase()) {
-                for (const stage of region.stages) {
-                    if (stage.toUpperCase() === stageName.toUpperCase()) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
+    return false;
+  }
 }

@@ -1,3 +1,4 @@
+
 /*
  * kubernetes-monitor-view
  * Copyright (C) 2018 Thomas Pohl and EXXETA AG
@@ -15,7 +16,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const environment = {
-  production: true,
-  basePath: 'http://localhost:8080/kube/rest/'
-};
+import {Domain} from './Domain';
+
+export class DomainConfig {
+  constructor(
+    public domains: Domain[],
+    public statusInterval: number
+  ) {
+
+  }
+
+}
