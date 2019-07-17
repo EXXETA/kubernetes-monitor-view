@@ -40,6 +40,15 @@ ul {
 .modal-body {
   background-color: #212121;
   color: white;
+  &::-webkit-scrollbar {
+    width: 1rem;
+  }
+  &::-webkit-scrollbar-track {
+    background: #eee;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #2980b9;
+  }
 }
 
 .kubernetes-monitor-dialog {

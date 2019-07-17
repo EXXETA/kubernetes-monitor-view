@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import { KubernetesMonitorMockService } from './kubernetesMonitorMock.service';
 import {DomainConfig} from './kubernetesMonitor/model/DomainConfig';
 
 @Component({
