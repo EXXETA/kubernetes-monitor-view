@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { KubernetesMonitorService } from '../kubernetesMonitor.service';
 import { ApplicationInstanceState } from '../model/ApplicationInstanceState';
 import { NGXLogger } from 'ngx-logger';
