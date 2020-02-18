@@ -41,7 +41,7 @@ export class KubernetesMonitorComponent implements OnInit {
   loading = true;
   timer: any;
   oldTimestamp = false;
-  @ViewChild('table') table: ApplicationTableComponent;
+  @ViewChild('table', {static: false}) table: ApplicationTableComponent;
   @Input() kubeMonitorService: KubernetesMonitorService;
   @Input() hideRegions;
   @Input() domainConfig: DomainConfig;
