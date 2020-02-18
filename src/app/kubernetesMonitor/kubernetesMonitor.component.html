@@ -2,14 +2,14 @@
 
   <div class="container-fluid">
     <button class="btn btn-default" *ngIf="tableView" (click)="tableView = !tableView">
-      <span appOcticon="home" width="25" color="black"></span>
+      <span class="status-icon" appOcticon="home" color="black"></span>
     </button>
 
     <div *ngIf="domainConfig.domains.length == 0 && !tableView" class="text-center">
       <h3>No domains defined</h3>
     </div>
     <div class="row" *ngIf="domainConfig.domains.length > 0 && !tableView">
-      <div class="col-3" *ngFor="let domain of domainConfig.domains" (click)="selectDomain(domain)">
+      <div class="col" *ngFor="let domain of domainConfig.domains" (click)="selectDomain(domain)">
         <domain [domain]="domain" [statusInterval]="domainConfig.statusInterval"></domain>
       </div>
     </div>

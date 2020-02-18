@@ -39,7 +39,7 @@ export class AppComponent {
         ],
         timestamp: 1545137175017
       }, {
-        name: 'Vedoc',
+        name: 'VeDoc',
         url: 'http://localhost:8080/kube/rest/Vedoc',
         stages: [
           { 'name': 'ECE', 'stages': ['DEV', 'INT', 'PROD'] }

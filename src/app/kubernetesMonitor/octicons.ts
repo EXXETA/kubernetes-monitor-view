@@ -26,7 +26,6 @@ export class OcticonDirective implements OnInit, OnChanges {
 
     @Input() appOcticon: string;
     @Input() color: string;
-    @Input() width: number;
 
     constructor(private elementRef: ElementRef, private renderer: Renderer2) { }
 
@@ -41,10 +40,6 @@ export class OcticonDirective implements OnInit, OnChanges {
         if (this.color) {
             this.renderer.setStyle(icon, 'color', this.color);
             this.renderer.setStyle(icon, 'fill', this.color);
-        }
-        if (this.width) {
-            this.renderer.setStyle(icon, 'width', this.width);
-            this.renderer.setStyle(icon, 'height', '100%');
         }
     }
 

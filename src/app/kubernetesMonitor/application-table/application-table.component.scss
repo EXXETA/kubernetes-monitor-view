@@ -41,38 +41,52 @@ table {
   }
   th {
     &.stage {
-      font-size: 0.9em;
+      font-size: 0.7rem;
     }
   }
 }
 
-.table th,
-.table td {
-  padding: 2px;
-  background-color: rgba($color: #212121, $alpha: 1);
-  border-color: #616161;
-  color: #FFFFFF;
-  width: 150px;
-  overflow: hidden;
-  white-space: nowrap;
+.table {
+  th, td {
+    padding: 2px;
+    background-color: rgba($color: #212121, $alpha: 1);
+    border-color: #616161;
+    color: #FFFFFF;
+    min-width: 145px;
+    overflow: visible;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  td {
+    &.appName {
+      padding-left: 0.5rem;
+    }
+  }
+
 }
 
 .table thead th {
   border-color: #616161;
+  overflow: hidden;
+  word-break: break-all;
 }
 
 tr {
   background-color: transparent;
 }
 
-.containerRow {
+.subRow {
+  background-color: #0D47A1;
   font-size: 0.9em;
   white-space: nowrap;
   overflow: hidden;
+  td {
+    padding-left: 1rem;
+  }
 }
 
 .table td.spacer, .table th.spacer {
-  width: 5px;
+  width: 3px;
   background-color: transparent;
   border-top: 0;
   border-bottom: 0;
@@ -80,9 +94,11 @@ tr {
   padding-right: 0;
 
   &.first_column {
-    width: 15rem;
+    width: 9rem;
+    @media (min-width: 1200px) {
+      width: 15rem;
+    }
   }
-
   &.second_column {
     width: 1.5rem;
   }
@@ -92,12 +108,9 @@ tr {
   background-color: transparent;
   border-top: 0;
   border-bottom: 0;
-  width: 6rem;
-}
-
-@media (max-width: 1199px) {
-  .table .headerspacer {
-    width: 2rem;
+  width: 2rem;
+  @media (min-width: 1200px) {
+    width: 4.5rem;
   }
 }
 
@@ -107,7 +120,7 @@ tr {
 
 .appName {
   text-align: left;
-  padding-left: 10px;
+  padding-left: 1.75rem;
 }
 
 .containerName {

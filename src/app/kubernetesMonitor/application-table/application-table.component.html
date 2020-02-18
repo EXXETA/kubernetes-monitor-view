@@ -56,7 +56,7 @@
       </ng-template>
     </tr>
     <ng-template ngFor let-containerName [ngForOf]="getContainers(app)">
-      <tr *ngIf="showDetails(app)" class="containerRow">
+      <tr *ngIf="showDetails(app)" class="subRow">
         <td class="containerName">{{containerName}}</td>
         <td>&nbsp;</td>
         <ng-template ngFor let-region [ngForOf]="regions">
