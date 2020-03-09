@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import { BackgroundServiceRegistry, BackgroundService } from '../Backgroundservice';
 import { StatusServiceService } from '../status-service.service';
 import {NGXLogger} from 'ngx-logger';
-import { Domain } from '../model/Domain';
+import Domain from '../model/Domain';
 
 @Component({
   selector: 'domain',

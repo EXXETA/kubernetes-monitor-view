@@ -15,18 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export class Domain {
-
-  constructor(
-    public name: string,
-    public url: string,
-    public timestamp: number,
-    public stages: {
-      name: string,
-      stages: string[]
-    } []
-  ) {
-
-  }
-
+export default interface Domain {
+  name: string;
+  url: string;
+  timestamp: number;
+  stages: {
+    name: string,
+    stages: string[]
+  }[];
 }

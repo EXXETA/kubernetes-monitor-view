@@ -23,10 +23,9 @@ import {StatusReport} from './model/StatusReport';
 import * as moment from 'moment';
 import {ApplicationInstanceState} from './model/ApplicationInstanceState';
 import {ApplicationTableComponent} from './application-table/application-table.component';
-import {Domain} from './model/Domain';
+import Domain from './model/Domain';
 import {StatusServiceService} from './status-service.service';
-import {environment} from '../../environments/environment';
-import {DomainConfig} from './model/DomainConfig';
+import DomainConfig from './model/DomainConfig';
 
 
 @Component({
@@ -57,7 +56,7 @@ export class KubernetesMonitorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.statusService.setStatusURL(environment.basePath);
+    this.statusService.setStatusURL(this.domainConfig.basePath);
 
     this.logger.log('from KubernetesMonitorComponent');
     this.logger.log(this.kubernetesMonitorService);

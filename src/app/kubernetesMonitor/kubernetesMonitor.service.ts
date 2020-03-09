@@ -18,7 +18,7 @@
 import { Injectable } from '@angular/core';
 import { StatusReport } from './model/StatusReport';
 import { map } from 'rxjs/operators';
-import { Domain } from './model/Domain';
+import Domain from './model/Domain';
 import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs/internal/Observable';
 

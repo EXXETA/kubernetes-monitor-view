@@ -1,4 +1,3 @@
-
 /*
  * kubernetes-monitor-view
  * Copyright (C) 2018 Thomas Pohl and EXXETA AG
@@ -16,14 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Domain} from './Domain';
+import Domain from './Domain';
 
-export class DomainConfig {
-  constructor(
-    public domains: Domain[],
-    public statusInterval: number
-  ) {
-
-  }
-
+export default interface DomainConfig {
+  domains: Domain[];
+  statusInterval: number;
+  statusURL: string;
+  basePath: string;
 }

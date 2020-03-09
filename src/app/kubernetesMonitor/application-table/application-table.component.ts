@@ -21,7 +21,7 @@ import {StatusReport} from '../model/StatusReport';
 import {ApplicationState} from '../model/ApplicationState';
 import {ApplicationInstanceState} from '../model/ApplicationInstanceState';
 import {KubernetesMonitorService} from '../kubernetesMonitor.service';
-import {Domain} from '../model/Domain';
+import Domain from '../model/Domain';
 
 @Component({
   selector: 'application-table',

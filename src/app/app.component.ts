@@ -16,21 +16,20 @@
  * limitations under the License.
  */
 import { Component } from '@angular/core';
-import {DomainConfig} from './kubernetesMonitor/model/DomainConfig';
+import DomainConfig from './kubernetesMonitor/model/DomainConfig';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  // service = new KubernetesMonitorMockService();
-
   domainConfig: DomainConfig = {
+    basePath: 'http://127.0.0.1:8080/api/kube/rest/',
+    statusURL: '/api/kube/rest/domain/',
     domains: [
       {
         name: 'Tapas',
-        url: 'http://localhost:8080/kube/rest/Tapas',
+        url: 'http://127.0.0.1:8080/kube/rest/Tapas',
         stages: [
           { 'name': 'Any', 'stages': ['DEV'] },
           { 'name': 'ECE', 'stages': ['INT', 'PREPROD', 'MAINT', 'PROD'] },
@@ -40,7 +39,7 @@ export class AppComponent {
         timestamp: 1545137175017
       }, {
         name: 'VeDoc',
-        url: 'http://localhost:8080/kube/rest/Vedoc',
+        url: 'http://127.0.0.1:8080/kube/rest/Vedoc',
         stages: [
           { 'name': 'ECE', 'stages': ['DEV', 'INT', 'PROD'] }
         ],
