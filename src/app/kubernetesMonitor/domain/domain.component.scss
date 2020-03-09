@@ -1,0 +1,60 @@
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+
+.domain-container {
+  min-height: 15rem;
+  height: auto;
+  padding: 1rem;
+  background-color: #ffffff;
+  cursor: pointer;
+  margin: 2rem auto;
+  border: #026d77 1px solid;
+  border-radius: 3px;
+
+  @include media-breakpoint-up(xxl) {
+    font-size: 25rem;
+  }
+
+  h1 {
+    font-size: 5rem;
+    @include media-breakpoint-up(xxl) {
+      font-size: 8rem;
+    }
+  }
+
+  div.float-right {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.background-warning {
+  background-color: #f1c40f
+}
+
+.background-danger {
+  background-color: #c0392b;
+}
+
+.background-good {
+  background-color: #2980b9
+}
+
+.domain-title {
+  font-size: 4rem;
+  color: #000000;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  position: relative;
+}
+
+.last_update {
+  color: #000000;
+}
+
+.domain-status-indicator {
+  width: 2rem;
+  height: 2rem;
+}

@@ -16,6 +16,9 @@
  * limitations under the License.
  */
 @import '../../assets/scss/colors';
+@import 'node_modules/bootstrap/scss/functions';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
 
 .background.kubeMonitor {
   position: relative;
@@ -36,6 +39,21 @@
   margin-right: 2rem;
   margin-bottom: 2rem;
   padding: 1rem;
+  .btn-group {
+    .dropdown-menu,
+    button {
+      @include media-breakpoint-up(xxl) {
+        font-size: 1.5rem;
+      }
+    }
+  }
+  .timestamp {
+    font-size: 1.2rem;
+    font-style: italic;
+    @include media-breakpoint-up(xxl) {
+      font-size: 1.5rem;
+    }
+  }
 }
 
 .status-icon {

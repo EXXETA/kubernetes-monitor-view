@@ -11,7 +11,7 @@ import { Domain } from '../model/Domain';
 @Component({
   selector: 'domain',
   templateUrl: './domain.component.html',
-  styleUrls: ['./domain.component.css']
+  styleUrls: ['./domain.component.scss']
 })
 export class DomainComponent implements OnInit {
 
